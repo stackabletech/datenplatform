@@ -35,7 +35,25 @@ with models.DAG(
 ) as dag:
     trino_insert = TrinoOperator(
         task_id="trino_insert",
-        sql=f"""INSERT INTO lakehouse.smart_city.parking_garages_history VALUES (1, 'San Francisco');""",
+        sql=f"""insert into lakehouse.smart_city.parking_garages_history select 
+	obs_id,
+	obs_parkid,
+	obs_state,
+	obs_max,
+	obs_free,
+	obs_ts,
+	park_name,
+	park_id,
+	trend,
+	prozent,
+	park_url,
+	park_zone,
+	free_color,
+	status,
+    latitude,
+    longitude 
+    from staging.smart_city.parking_garages g
+    where g.obs_ts > (select max(obs_ts) from lakehouse.smart_city.parking_garages_history);""",
         handler=list,
     )
     (
