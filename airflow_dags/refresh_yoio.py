@@ -39,7 +39,7 @@ with models.DAG(
 using
   (select * from staging.smart_city.parking_garages) as u
 on u.obs_id = t.obs_id
-when not matched then insert values (u.obs_id, u.obs_parkid, u.obs_state, u.obs_max, u.obs_free, u.obs_ts, u.park_name, u.park_id, u.trend, u.prozent, u.park_url, u.park_zone, u.free_color, u.status, u.latitude, u.longitude);""",
+when not matched then insert values (u.obs_id, u.obs_parkid, u.obs_state, u.obs_max, u.obs_free, u.obs_ts, u.park_name, u.park_id, u.trend, u.prozent, u.park_url, u.park_zone, u.free_color, u.status, u.latitude, u.longitude)""",
         handler=list,
     )
     (
