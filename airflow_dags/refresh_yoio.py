@@ -53,7 +53,7 @@ with models.DAG(
     latitude,
     longitude 
     from staging.smart_city.parking_garages g
-    where g.obs_ts > (select max(obs_ts) from lakehouse.smart_city.parking_garages_history);""",
+    where g.obs_ts > (select max(obs_ts) from lakehouse.smart_city.parking_garages_history)""",
         handler=list,
     )
     (
