@@ -1,0 +1,34 @@
+---
+apiVersion: airflow.stackable.tech/v1alpha1
+kind: AirflowCluster
+metadata:
+  name: airflow2
+spec:
+  image:
+    productVersion: 2.6.1
+    stackableVersion: 0.0.0-dev
+  clusterConfig:
+    executor: CeleryExecutor
+    loadExamples: true
+    exposeConfig: false
+    credentialsSecret: simple-airflow-credentials
+    dagsGitSync:
+      - repo: https://github.com/stackabletech/datenplatform
+        branch: "main"
+        gitFolder: "airflow_dags"
+        depth: 10
+        wait: 20
+        gitSyncConf:
+          --rev: HEAD
+  webservers:
+    roleGroups:
+      default:
+        replicas: 1
+  workers:
+    roleGroups:
+      default:
+        replicas: 2
+  schedulers:
+    roleGroups:
+      default:
+        replicas: 1
