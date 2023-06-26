@@ -25,16 +25,6 @@ from datetime import datetime
 from airflow import models
 from airflow.providers.trino.operators.trino import TrinoOperator
 
-[docs]SCHEMA = "hive.cities"
-
-[docs]TABLE = "city"
-
-[docs]TABLE1 = "city1"
-
-[docs]TABLE2 = "city2"
-
-
-# [START howto_operator_trino]
 
 with models.DAG(
         dag_id="refresh-yoio",
@@ -45,7 +35,7 @@ with models.DAG(
 ) as dag:
     trino_insert = TrinoOperator(
         task_id="trino_insert",
-        sql=f"""INSERT INTO {SCHEMA}.{TABLE} VALUES (1, 'San Francisco');""",
+        sql=f"""INSERT INTO lakehouse.smart_city.parking_garages_history VALUES (1, 'San Francisco');""",
         handler=list,
     )
     (
