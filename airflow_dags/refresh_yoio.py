@@ -28,7 +28,7 @@ from airflow.providers.trino.operators.trino import TrinoOperator
 
 with models.DAG(
         dag_id="refresh-yoio",
-        schedule="@once",  # Override to match your needs
+        schedule="*/5 * * * *",
         start_date=datetime(2022, 1, 1),
         catchup=False,
         tags=["datenplatform", "yoio"],
