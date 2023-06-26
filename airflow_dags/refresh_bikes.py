@@ -27,7 +27,7 @@ from airflow.providers.trino.operators.trino import TrinoOperator
 
 
 with models.DAG(
-        dag_id="refresh-yoio",
+        dag_id="refresh-bikes",
         schedule="*/5 * * * *",
         start_date=datetime(2022, 1, 1),
         catchup=False,
@@ -37,18 +37,21 @@ with models.DAG(
         task_id="trino_insert",
         sql=f"""insert
 	into
-	lakehouse.smart_city.yoio_history 
+		lakehouse.smart_city.bikes_history 
 	select
 		current_timestamp(6) as timestamp,
-		nr,
-		current_range_meters,
-		rental_uri_android,
-		rental_uri_ios,
-		rental_uri_web,
+		longitude,
 		latitude,
-		longitude
+		name,
+		address,
+		free_bikes,
+		free_space,
+		free_special_space,
+		station_number,
+		freloplus,
+		free_cargo_bikes
 from
-		staging.smart_city.yoio""",
+		staging.smart_city.bikes""",
         handler=list,
     )
     (
