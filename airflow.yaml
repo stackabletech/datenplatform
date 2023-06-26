@@ -9,7 +9,7 @@ spec:
     stackableVersion: 0.0.0-dev
   clusterConfig:
     executor: CeleryExecutor
-    loadExamples: true
+    loadExamples: false
     exposeConfig: false
     credentialsSecret: simple-airflow-credentials
     dagsGitSync:
