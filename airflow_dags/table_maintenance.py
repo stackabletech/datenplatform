@@ -17,13 +17,13 @@ with models.DAG(
         "lakehouse.smart_city.yoio_history",
     ]
     for table in tables:
-        trino_query = TrinoOperator(
-            task_id=f"trino_maintenance_{table}",
+        TrinoOperator(
+            task_id=f"trino_maintenance_optimize_{table}",
             sql=f"alter table {table} execute optimize",
             handler=list,
         )
-        trino_query = TrinoOperator(
-            task_id=f"trino_maintenance_{table}",
+        TrinoOperator(
+            task_id=f"trino_maintenance_expire_snapshots_{table}",
             sql=f"alter table {table} expire_snapshots(retention_threshold => '7d')",
             handler=list,
         )
