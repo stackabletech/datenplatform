@@ -13,13 +13,13 @@ with models.DAG(
     trino_maintenance = TrinoOperator(
         task_id="trino_maintenance",
         sql=f"""alter table lakehouse.smart_city.bikes_history execute optimize;
-alter table lakehouse.smart_city.bikes_history execute expire_snapshots(retention_threshold => '7d');
-alter table lakehouse.smart_city.parking_garages_history execute optimize;
-alter table lakehouse.smart_city.parking_garages_history execute expire_snapshots(retention_threshold => '7d');
-alter table lakehouse.smart_city.roxy_history execute optimize;
-alter table lakehouse.smart_city.roxy_history execute expire_snapshots(retention_threshold => '7d');
-alter table lakehouse.smart_city.yoio_history execute optimize;
-alter table lakehouse.smart_city.yoio_history execute expire_snapshots(retention_threshold => '7d');""",
+        alter table lakehouse.smart_city.bikes_history execute expire_snapshots(retention_threshold => '7d');
+        alter table lakehouse.smart_city.parking_garages_history execute optimize;
+        alter table lakehouse.smart_city.parking_garages_history execute expire_snapshots(retention_threshold => '7d');
+        alter table lakehouse.smart_city.roxy_history execute optimize;
+        alter table lakehouse.smart_city.roxy_history execute expire_snapshots(retention_threshold => '7d');
+        alter table lakehouse.smart_city.yoio_history execute optimize;
+        alter table lakehouse.smart_city.yoio_history execute expire_snapshots(retention_threshold => '7d');""",
         handler=list,
     )
     (
