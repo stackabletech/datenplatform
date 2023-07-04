@@ -1,0 +1,16 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: trino-operator
+  namespace: sble-operators
+spec:
+  chart:
+    spec:
+      chart: trino-operator
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: stackable-repository
+      version: 0.0.0-dev
+  interval: 1m0s
