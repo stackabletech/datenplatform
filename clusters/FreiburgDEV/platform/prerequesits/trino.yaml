@@ -6,118 +6,17 @@ metadata:
   namespace: platform
 spec:
   image:
-    productVersion: "403"
-    stackableVersion: "23.4"
+    productVersion: "396"
+    stackableVersion: "0.0.0-dev"
   clusterConfig:
-    listenerClass: external-unstable
     catalogLabelSelector:
       matchLabels:
         trino: trino
-    authentication:
-      method:
-        multiUser:
-          userCredentialsSecret:
-            name: trino-users
-    authorization:
-      opa:
-        configMapName: opa
-        package: trino
   coordinators:
-    config:
-      queryMaxMemory: 10TB
-      resources:
-        cpu:
-          min: "1"
-          max: "4"
-        memory:
-          limit: '6Gi'
     roleGroups:
       default:
-        replicas: 1
+        replicas: 2
   workers:
-    config:
-      queryMaxMemoryPerNode: 5GB
-      resources:
-        cpu:
-          min: "2"
-          max: "4"
-        memory:
-          limit: '10Gi'
     roleGroups:
       default:
-        replicas: 4
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: trino-users
-  namespace: platform
-type: kubernetes.io/opaque
-stringData:
-  # htpasswd -n -B -C 10 admin
-  # Hack: Trino requires bcrypt version 2Y, the bcrypt crate generates 2B hashes. See https://github.com/trinodb/trino/issues/11314 for details
-  # This can be removed once the bcrypt crate starts generating 2Y hashes
-  admin: "{{ bcrypt(password=trinoAdminPassword) | replace(from="$2b$", to="$2y$") }}"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: trino-credentials
-  namespace: platform
-stringData:
-  admin: "{{ trinoAdminPassword }}"
----
-apiVersion: trino.stackable.tech/v1alpha1
-kind: TrinoCatalog
-metadata:
-  name: tpcds
-  labels:
-    trino: trino
-  namespace: platform
-spec:
-  connector:
-    tpcds: {}
----
-apiVersion: trino.stackable.tech/v1alpha1
-kind: TrinoCatalog
-metadata:
-  name: tpch
-  labels:
-    trino: trino
-  namespace: platform
-spec:
-  connector:
-    tpch: {}
----
-apiVersion: opa.stackable.tech/v1alpha1
-kind: OpaCluster
-metadata:
-  name: opa
-  namespace: platform
-spec:
-  image:
-    productVersion: 0.45.0
-    stackableVersion: "23.4"
-  servers:
-    roleGroups:
-      default:
-        selector:
-          matchLabels:
-            kubernetes.io/os: linux
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: trino-opa-bundle
-  labels:
-    opa.stackable.tech/bundle: "trino"
-  namespace: platform
-data:
-  trino.rego: |
-    package trino
-
-    default allow = false
-
-    allow {
-      input.context.identity.user == "admin"
-    }
+        replicas: 3
