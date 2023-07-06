@@ -19,4 +19,4 @@ spec:
   workers:
     roleGroups:
       default:
-        replicas: 1
+        replicas: 2
