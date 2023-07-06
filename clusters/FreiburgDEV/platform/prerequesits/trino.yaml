@@ -1,4 +1,3 @@
----
 apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCluster
 metadata:
@@ -13,12 +12,11 @@ spec:
     catalogLabelSelector:
       matchLabels:
         trino: trino
-    authentication:
-      method:
-        multiUser:
-          userCredentialsSecret:
-            name: trino-users
-  coordinators:
+    authorization:
+      opa:
+        configMapName: opa
+        package: trino  
+coordinators:
     roleGroups:
       default:
         replicas: 1
