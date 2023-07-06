@@ -11,6 +11,6 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: stackable-repository
+        name: stackable-repository-dev
       version: 0.0.0-dev
   interval: 1m0s

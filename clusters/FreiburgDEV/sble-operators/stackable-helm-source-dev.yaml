@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: stackable-repository
+  name: stackable-repository-dev
   namespace: sble-operators
 spec:
   interval: 1m0s
