@@ -4,3 +4,4 @@ resources:
   - zookeeper.yaml
   - kafka.yaml
   - trino.yaml
+  - opa.yaml
