@@ -15,8 +15,8 @@ spec:
   coordinators:
     roleGroups:
       default:
-        replicas: 2
+        replicas: 1
   workers:
     roleGroups:
       default:
-        replicas: 3
+        replicas: 1

@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - zookeeper.yaml
   - kafka.yaml
-    #  - trino.yaml
+  - trino.yaml
