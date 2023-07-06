@@ -13,6 +13,11 @@ spec:
     catalogLabelSelector:
       matchLabels:
         trino: trino
+    authentication:
+      method:
+        multiUser:
+          userCredentialsSecret:
+            name: trino-users
   coordinators:
     roleGroups:
       default:
