@@ -34,7 +34,7 @@ spec:
           limit: 2Gi
     roleGroups:
       default:
-        replicas: 1
+        replicas: 3 
         configOverrides:
           server.properties:
             num.partitions: "27"
