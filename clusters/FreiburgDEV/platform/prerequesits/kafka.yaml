@@ -26,7 +26,7 @@ spec:
       resources:
         storage:
           logDirs:
-            capacity: 50Gi
+            capacity: 5Gi
         cpu:
           min: "1500m"
           max: "3"
