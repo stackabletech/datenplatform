@@ -41,7 +41,6 @@ stringData:
   # This can be removed once the bcrypt crate starts generating 2Y hashes
   admin: "{{ bcrypt(password=trinoAdminPassword) | replace(from="$2b$", to="$2y$") }}"
 ---
-# As the demo needs to have access to Trino using the admin user we need to store the password somewhere
 apiVersion: v1
 kind: Secret
 metadata:
