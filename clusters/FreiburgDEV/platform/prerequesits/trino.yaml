@@ -9,23 +9,13 @@ spec:
     productVersion: "403"
     stackableVersion: "0.0.0-dev"
   clusterConfig:
-    listenerClass: external-unstable
     catalogLabelSelector:
       matchLabels:
         trino: trino
-    authentication:
-      method:
-        multiUser:
-          userCredentialsSecret:
-            name: trino-users
-    authorization:
-      opa:
-        configMapName: opa
-        package: trino
   coordinators:
     roleGroups:
       default:
-        replicas: 1
+       replicas: 1
   workers:
     roleGroups:
       default:
