@@ -12,10 +12,6 @@ spec:
     catalogLabelSelector:
       matchLabels:
         trino: trino
-    authorization:
-      opa:
-        configMapName: opa
-        package: trino  
 coordinators:
     roleGroups:
       default:
