@@ -12,7 +12,7 @@ spec:
     catalogLabelSelector:
       matchLabels:
         trino: trino
-coordinators:
+  coordinators:
     roleGroups:
       default:
         replicas: 1
