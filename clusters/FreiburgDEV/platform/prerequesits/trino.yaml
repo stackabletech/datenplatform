@@ -9,6 +9,8 @@ spec:
     productVersion: "403"
     stackableVersion: "0.0.0-dev"
   clusterConfig:
+    tls:
+      serverSecretClass: trino-tls
     catalogLabelSelector:
       matchLabels:
         trino: trino
