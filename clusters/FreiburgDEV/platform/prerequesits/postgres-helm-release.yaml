@@ -13,8 +13,8 @@ spec:
         kind: HelmRepository
         name: postgres-repo
       version: 12.1.5
-  auth:
-    username: superset
-    password: superset
-    database: superset
   interval: 1m0s
+auth:
+  username: superset
+  password: superset
+  database: superset
