@@ -6,4 +6,4 @@ metadata:
   namespace: platform
 spec:
   interval: 1m0s
-  url: helm repo add bitnami https://charts.bitnami.com/bitnami
+  url: https://charts.bitnami.com/bitnami
