@@ -1,0 +1,15 @@
+---
+apiVersion: zookeeper.stackable.tech/v1alpha1
+kind: ZookeeperCluster
+metadata:
+  name: zookeeper
+  namespace: platform
+spec:
+  image:
+    productVersion: 3.8.0
+    stackableVersion: "0.0.0-dev"
+  servers:
+    roleGroups:
+      default:
+        replicas: 2
+
