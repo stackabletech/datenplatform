@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: bitnami/postgresql
+      chart: postgresql
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
