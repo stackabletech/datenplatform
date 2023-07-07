@@ -9,6 +9,5 @@ resources:
   - minio.yaml
   - postgres-helm-source.yaml
   - postgres-helm-release.yaml
-    #  - values.yaml
-    #  - superset.yaml
+  - superset.yaml
     #  - s3-connection.yaml
