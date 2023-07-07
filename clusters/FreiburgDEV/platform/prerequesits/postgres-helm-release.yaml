@@ -14,8 +14,8 @@ spec:
         name: postgres-repo
       version: 12.1.5
   interval: 1m0s
-global:
-  auth:
-    username: superset
-    password: superset
-    database: superset
+  global:
+    auth:
+      username: superset
+      password: superset
+      database: superset
