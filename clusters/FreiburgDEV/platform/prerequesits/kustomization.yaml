@@ -6,3 +6,4 @@ resources:
   - kafka.yaml
   - trino.yaml
   - opa.yaml
+  - minio.yaml
