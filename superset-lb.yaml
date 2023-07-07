@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset-external-80
+spec:
+  selector:
+    app.kubernetes.io/component: node
+    app.kubernetes.io/instance: superset
+    app.kubernetes.io/name: superset
+  ports:
+    - port: 80
+      targetPort: 8088
+  type: LoadBalancer
