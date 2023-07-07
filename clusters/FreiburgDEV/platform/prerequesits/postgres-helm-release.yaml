@@ -14,6 +14,6 @@ spec:
         name: postgres-repo
       version: 12.1.5
       valuesFiles:
-        - postgres-values.yaml
+        - values.yaml
   interval: 1m0s
 
