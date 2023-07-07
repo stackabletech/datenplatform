@@ -7,4 +7,4 @@ resources:
   - trino.yaml
   - opa.yaml
   - minio.yaml
-    #  - s3-connection.yaml
+  - s3-connection.yaml
