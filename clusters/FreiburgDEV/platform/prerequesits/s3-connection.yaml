@@ -10,14 +10,8 @@ spec:
   accessStyle: Path
   credentials:
     secretClass: minio-s3-credentials
----
-apiVersion: secrets.stackable.tech/v1alpha1
-kind: SecretClass
-metadata:
-  name: minio-s3-credentials
-  namespace: platform
-spec:
-  backend:
-    k8sSearch:
-      searchNamespace:
-        pod: {}
+  tls:
+    verification:
+      server:
+        caCert:
+          secretClass: minio-tls-certificates
