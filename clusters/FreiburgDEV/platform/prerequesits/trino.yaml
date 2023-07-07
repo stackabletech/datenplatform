@@ -12,6 +12,8 @@ spec:
     catalogLabelSelector:
       matchLabels:
         trino: trino
+    authentication:
+      - authenticationClass: simple-trino-users
   coordinators:
     roleGroups:
       default:
