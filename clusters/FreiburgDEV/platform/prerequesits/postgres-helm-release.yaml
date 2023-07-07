@@ -13,9 +13,7 @@ spec:
         kind: HelmRepository
         name: postgres-repo
       version: 12.1.5
+      valuesFiles:
+        - postgres-values.yaml
   interval: 1m0s
-  global:
-    auth:
-      username: superset
-      password: superset
-      database: superset
+
