@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-values
+  namespace: platform
+data:
+  values.yaml: |
+    ---
+    volumePermissions:
+      enabled: false
+      securityContext:
+        runAsUser: auto
+
+    primary:
+      podSecurityContext:
+        enabled: true
+      containerSecurityContext:
+        enabled: false
+
+    shmVolume:
+      chmod:
+        enabled: false
+    global:
+      auth:
+        username: superset
+        password: superset
+        database: superset
