@@ -9,21 +9,43 @@ spec:
     productVersion: "403"
     stackableVersion: "0.0.0-dev"
   clusterConfig:
-    tls:
-      serverSecretClass: trino-tls
+    listenerClass: external-unstable
     catalogLabelSelector:
       matchLabels:
         trino: trino
     authentication:
-      - authenticationClass: simple-trino-users
+      method:
+        multiUser:
+          userCredentialsSecret:
+            name: trino-users
+    authorization:
+      opa:
+        configMapName: opa
+        package: trino
   coordinators:
+    config:
+      queryMaxMemory: 10TB
+      resources:
+        cpu:
+          min: "1"
+          max: "4"
+        memory:
+          limit: '6Gi'
     roleGroups:
       default:
         replicas: 1
   workers:
+    config:
+      queryMaxMemoryPerNode: 5GB
+      resources:
+        cpu:
+          min: "2"
+          max: "4"
+        memory:
+          limit: '10Gi'
     roleGroups:
       default:
-        replicas: 2
+        replicas: 4
 ---
 apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCatalog
@@ -42,10 +64,9 @@ metadata:
   name: tpch
   labels:
     trino: trino
-  namespace: platform
+    namespace: platform
 spec:
   connector:
     tpch: {}
-~                                                                                                                                                                                                                                                   
-~                                                                                                                                                                                                                                                   
+---                                                                                                                                                                                                                             
 ~                                      
