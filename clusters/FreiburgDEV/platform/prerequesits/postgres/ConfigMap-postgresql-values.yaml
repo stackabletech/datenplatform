@@ -6,7 +6,31 @@ metadata:
   namespace: platform
 data:
   values.yaml: |
+    ---
+    volumePermissions:
+      enabled: false
+      securityContext:
+        runAsUser: auto
+
+    primary:
+      podSecurityContext:
+        enabled: true
+      containerSecurityContext:
+        enabled: false
+
+    shmVolume:
+      chmod:
+        enabled: false
+
     auth:
       username: superset
       password: superset
       database: superset
+
+
+
+
+
+
+
+
