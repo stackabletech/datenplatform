@@ -1,13 +1,4 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: redis-repo
-  namespace: platform
-spec:
-  interval: 1m0s
-  url: https://charts.bitnami.com/redis
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -20,7 +11,7 @@ spec:
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
-        name: redis-repo
+        name: bitnami-repo
       version: 17.3.7
   valuesFrom:
     - kind: ConfigMap
