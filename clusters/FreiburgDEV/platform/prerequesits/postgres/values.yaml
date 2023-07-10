@@ -1,10 +1,4 @@
-global:
-  auth:
-    username: superset
-    password: superset
-    database: superset
-image:
-  auth:
-    username: superset
-    password: superset
-    database: superset
+auth:
+  username: superset
+  password: superset
+  database: superset
