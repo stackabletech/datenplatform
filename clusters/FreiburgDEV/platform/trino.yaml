@@ -64,7 +64,7 @@ metadata:
   name: tpch
   labels:
     trino: trino
-    namespace: platform
+  namespace: platform
 spec:
   connector:
     tpch: {}
