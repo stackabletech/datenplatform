@@ -13,10 +13,7 @@ spec:
       matchLabels:
         trino: trino
     authentication:
-      method:
-        multiUser:
-          userCredentialsSecret:
-            name: trino-users
+      - authenticationClass: simple-trino-users
     authorization:
       opa:
         configMapName: opa
