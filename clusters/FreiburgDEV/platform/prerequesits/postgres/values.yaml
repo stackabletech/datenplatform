@@ -3,3 +3,8 @@ global:
     username: superset
     password: superset
     database: superset
+image:
+  auth:
+    username: superset
+    password: superset
+    database: superset
