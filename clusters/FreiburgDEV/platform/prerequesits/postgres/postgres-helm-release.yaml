@@ -14,8 +14,8 @@ spec:
         name: postgres-repo
       version: 12.5.6
   valuesFrom:
-    kind: ConfigMap
-    name: postgresql-values
+    - kind: ConfigMap
+      name: postgresql-values
   values:
     auth:
       username: superset
