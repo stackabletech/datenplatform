@@ -51,6 +51,14 @@ spec:
           env:
             - name: JAVA_OPTS
               value: -XX:+ExitOnOutOfMemoryError {{ .Values.javaOpts }}
+            - name: PIVEAU_HUB_SEARCH_SERVICE
+              value: |-
+                {
+                  "enabled": true,
+                  "url": {{ $fullName | replace "repo" "search" }}, 
+                  "port": 8080, 
+                  "api_key": {{ .Values.global.searchApiKey | quote }}
+                }
             - name: PIVEAU_TRIPLESTORE_CONFIG
               value: |-
                 {
