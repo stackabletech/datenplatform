@@ -20,8 +20,6 @@ service:
 serviceDiscovery:
   - piveau-consus-exporting-hub
   - piveau-consus-importing-rdf
-#  - piveau-consus-importing-ckan
-#  - piveau-consus-transforming-js
 
 ingress:
   enabled: false

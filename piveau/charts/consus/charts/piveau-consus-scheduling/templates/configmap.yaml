@@ -6,11 +6,11 @@ metadata:
   labels:
     {{- include "piveau-consus-scheduling.labels" . | nindent 4 }}
 data:
-  govdata-pipe.yaml: |
+  duva2dcat-pipe.yaml: |
     header:
       id: a6813dbb-c48e-4d43-923b-813c7c6ecb72
-      name: govdata
-      title: Harvesting - GovData
+      name: duva2dcat
+      title: Harvesting - duva2dcat
       context: piveau
       transport: payload
       version: "2.0.0"
@@ -23,8 +23,8 @@ data:
             processed: false
           body:
             config:
-              address: https://www.govdata.de/ckan/catalog/catalog.rdf
-              catalogue: govdata
+              address: https://fritz.freiburg.de/duva2dcat/catalog.rdf
+              catalogue: duva2dcat
               preProcessing: true
         - header:
             name: piveau-consus-exporting-hub
