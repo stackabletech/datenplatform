@@ -20,7 +20,7 @@ spec:
         package: trino
   coordinators:
     config:
-      queryMaxMemory: 3Gi
+      queryMaxMemory: 3GB
       resources:
         cpu:
           min: "1"
