@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "piveau-hub-repo.fullname" . }}
+  labels:
+    {{- include "piveau-hub-repo.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: default
+      protocol: TCP
+      name: http
+    - port: 8085
+      targetPort: http-shell
+      protocol: TCP
+      name: http-shell
+    - port: 5000
+      targetPort: telnet-shell
+      protocol: TCP
+      name: telnet-shell
+  selector:
+    {{- include "piveau-hub-repo.selectorLabels" . | nindent 4 }}

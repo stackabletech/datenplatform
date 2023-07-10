@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "piveau-hub-repo.virtuosoName" . }}
+  labels:
+    {{- include "piveau-hub-repo.virtuosoLabels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.virtuoso.service.port }}
+      targetPort: default
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "piveau-hub-repo.virtuosoSelectorLabels" . | nindent 4 }}

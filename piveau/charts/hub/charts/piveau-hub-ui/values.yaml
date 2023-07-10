@@ -1,0 +1,28 @@
+nameOverride: ""
+
+image: registry.gitlab.com/piveau/hub/piveau-hub-ui
+imageTag: "1.5.4"
+imagePullPolicy: IfNotPresent
+imagePullSecrets: []
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 500Mi
+
+extraEnvs: []
+
+service:
+  port: 8080
+
+searchAddress: http://piveau.freiburg.stackable.tech/
+repoAddress: http://piveau.freiburg.stackable.tech/
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  host: piveau.freiburg.stackable.tech
+  path: /
+  pathType: Prefix
+  extraHosts: []

@@ -1,0 +1,15 @@
+{{- $fullName := include "piveau-consus-importing-rdf.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app: {{ $fullName }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: default
+      protocol: TCP
+  selector:
+    app: {{ $fullName }}

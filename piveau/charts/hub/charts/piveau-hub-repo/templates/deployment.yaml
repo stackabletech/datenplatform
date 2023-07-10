@@ -1,0 +1,80 @@
+{{- $fullName := include "piveau-hub-repo.fullname" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-hub-repo.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "piveau-hub-repo.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "piveau-hub-repo.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $fullName }}
+          image: {{ printf "%s:%s" .Values.image .Values.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: default
+            - containerPort: 8085
+              name: http-shell
+            - containerPort: 5000
+              name: telnet-shell
+          startupProbe:
+            httpGet:
+              path: /health
+              port: default
+            initialDelaySeconds: 20
+            failureThreshold: 10
+            timeoutSeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: default
+            failureThreshold: 1
+            timeoutSeconds: 3
+            periodSeconds: 10
+          {{- if .Values.resources }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          env:
+            - name: JAVA_OPTS
+              value: -XX:+ExitOnOutOfMemoryError {{ .Values.javaOpts }}
+            - name: PIVEAU_TRIPLESTORE_CONFIG
+              value: |-
+                {
+                  "address": {{ printf "http://%s:%s" (include "piveau-hub-repo.virtuosoName" .) (toString .Values.virtuoso.service.port) | quote }},
+                  "password": "{{ .Values.virtuoso.password }}"
+                }
+            {{- if .Values.extraEnvs }}
+            {{- toYaml .Values.extraEnvs | nindent 12 }}
+            {{- end }}
+            {{- if (.Values.global).repoApiKey }}
+            - name: PIVEAU_HUB_API_KEYS
+              value: {{ printf "{\"%s\":[\"*\"]}" (.Values.global).repoApiKey | quote }}
+            {{- else if .Values.apiKeys }}
+            - name: PIVEAU_HUB_API_KEYS
+              value: {{ toJson .Values.apiKeys | quote }}
+            {{- end }}
+          volumeMounts:
+                {{- if .Values.externalShape }}
+            - mountPath: /usr/verticles/conf/shapes
+              name: shapes
+                {{- end }}
+      volumes:
+        {{- if .Values.externalShape }}
+        - name: shapes
+          configMap:
+            name: {{ $fullName }}
+        {{- end }}

@@ -1,0 +1,14 @@
+# Default values for piveau.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  searchApiKey: mySearchApiKey
+  repoApiKey: myRepoApiKey
+
+tags:
+  piveau-hub: true
+  piveau-consus: true
+  
+piveau-hub: {}
+piveau-consus: {}
