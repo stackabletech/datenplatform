@@ -20,9 +20,8 @@ data:
 
     shmVolume:
       chmod:
-        enabled: false
-    global:
-      auth:
-        username: superset
-        password: superset
-        database: superset
+        enabled: false:
+    auth:
+      username: superset
+      password: superset
+      database: superset
