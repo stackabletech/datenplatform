@@ -4,5 +4,4 @@ resources:
     - opa.yaml
     - zookeeper.yaml
     - trino.yaml
-    - trino-secrets.yaml
     - superset.yaml
