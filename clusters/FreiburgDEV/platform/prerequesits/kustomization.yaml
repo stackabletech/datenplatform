@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - zookeeper.yaml
-  - kafka.yaml
   - trino.yaml
   - opa.yaml
   - minio.yaml
