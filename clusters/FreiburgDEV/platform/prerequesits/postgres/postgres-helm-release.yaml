@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: postgres-repo
-      version: 12.5.6
+      version: 12.1.5
   valuesFrom:
     - kind: ConfigMap
       name: postgresql-values
