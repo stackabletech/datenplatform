@@ -14,7 +14,7 @@ spec:
         name: postgres-repo
       version: 12.5.6
   valuesFrom:
-    - Kind: ConfigMap
+    - kind: ConfigMap
       name: postgresql-values
   values:
     auth:
