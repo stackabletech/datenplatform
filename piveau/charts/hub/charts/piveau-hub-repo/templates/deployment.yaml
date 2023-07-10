@@ -55,7 +55,7 @@ spec:
               value: |-
                 {
                   "enabled": true,
-                  "url": {{ $fullName | replace "repo" "search" }}, 
+                  "url": {{ $fullName | replace "repo" "search" | quote }}, 
                   "port": 8080, 
                   "api_key": {{ .Values.global.searchApiKey | quote }}
                 }
