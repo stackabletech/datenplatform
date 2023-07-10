@@ -20,7 +20,7 @@ spec:
         package: trino
   coordinators:
     config:
-      queryMaxMemory: 10TB
+      queryMaxMemory: 3Gi
       resources:
         cpu:
           min: "1"
@@ -64,40 +64,3 @@ metadata:
 spec:
   connector:
     tpch: {}
----
-apiVersion: authentication.stackable.tech/v1alpha1
-kind: AuthenticationClass
-metadata:
-  name: simple-trino-users
-  namespace: platform
-spec:
-  provider:
-    static:
-      userCredentialsSecret:
-        name: trino-users
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: trino-users
-  namespace: platform
-type: kubernetes.io/opaque
-stringData:
-  admin: admin
-  user: user
----
-apiVersion: secrets.stackable.tech/v1alpha1
-kind: SecretClass
-metadata:
-  name: trino-tls
-  namespace: platform
-spec:
-  backend:
-    autoTls:
-      ca:
-        secret:
-          name: secret-provisioner-trino-tls-ca
-          namespace: platform
-        autoGenerate: true
-~                                                                                                                                                                                                                                                         
-~                                      
