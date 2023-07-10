@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - prerequesits/minio.yaml
   - prerequesits/postgres.yaml
-  - opa.yaml
-  - zookeeper.yaml
-  - trino.yaml
-  - superset.yaml
+    #- opa.yaml
+    #- zookeeper.yaml
+    #- trino.yaml
+    #- superset.yaml
