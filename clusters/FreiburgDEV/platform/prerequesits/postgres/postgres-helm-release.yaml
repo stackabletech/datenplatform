@@ -12,14 +12,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: postgres-repo
-      version: 12.1.5
+      version: 12.5.6
   valuesFrom:
     - kind: ConfigMap
       name: postgresql-values
-  values:
-    auth:
-      username: superset
-      password: superset
-      database: superset
   interval: 1m0s
 

@@ -6,8 +6,8 @@ resources:
   #- trino.yaml
   #- opa.yaml
   #- minio.yaml
-  #- postgres/postgres-helm-source.yaml
-  #- postgres/postgres-helm-release.yaml
-  #- postgres/ConfigMap-postgresql-values.yaml
+  - postgres/postgres-helm-source.yaml
+  - postgres/postgres-helm-release.yaml
+  - postgres/ConfigMap-postgresql-values.yaml
   #- superset.yaml
     #  - s3-connection.yaml
