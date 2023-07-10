@@ -68,9 +68,14 @@ spec:
             {{- end }}
       {{- if .Values.persistence.enabled }}
           volumeMounts:
-            - mountPath: /db
-              name: scheduling-data
+            - name: scheduling-data
+              mountPath: /db
+            - name: pipes
+              mountPath: /usr/verticles/pipes
       volumes:
+        - name: pipes
+          configMap:
+            name: {{ $fullName }}
         - name: scheduling-data
           persistentVolumeClaim:
             claimName: {{ $fullName }}

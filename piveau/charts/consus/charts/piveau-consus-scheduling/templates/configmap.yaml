@@ -1,0 +1,34 @@
+{{- $fullName := include "piveau-consus-scheduling.fullname" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-consus-scheduling.labels" . | nindent 4 }}
+data:
+  govdata-pipe.yaml: |
+    header:
+      id: a6813dbb-c48e-4d43-923b-813c7c6ecb72
+      name: govdata
+      title: Harvesting - GovData
+      context: piveau
+      transport: payload
+      version: "2.0.0"
+    body:
+      segments:
+        - header:
+            name: piveau-consus-importing-rdf
+            segmentNumber: 1
+            title: Importing RDF
+            processed: false
+          body:
+            config:
+              address: https://www.govdata.de/ckan/catalog/catalog.rdf
+              catalogue: govdata
+              preProcessing: true
+        - header:
+            name: piveau-consus-exporting-hub
+            segmentNumber: 2
+            title: Exporting hub
+            processed: false
+          body: {}
