@@ -2,3 +2,5 @@ auth:
   username: superset
   password: superset
   database: superset
+
+    SOME BULLSHIT
