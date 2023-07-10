@@ -23,7 +23,7 @@ spec:
   workers:
     roleGroups:
       default:
-        replicas: 4
+        replicas: 2
 ---
 apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCatalog
