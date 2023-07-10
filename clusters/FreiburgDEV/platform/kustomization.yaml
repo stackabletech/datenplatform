@@ -6,3 +6,4 @@ resources:
     - trino.yaml
     - trino-secrets.yaml
     - superset.yaml
+    - airflow.yaml
