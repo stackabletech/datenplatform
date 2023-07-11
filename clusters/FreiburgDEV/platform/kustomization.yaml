@@ -7,3 +7,4 @@ resources:
     - trino-secrets.yaml
     - superset.yaml
     - airflow.yaml
+    - piveau-helm-source.yaml
