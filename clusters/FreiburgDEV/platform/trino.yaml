@@ -58,4 +58,15 @@ metadata:
   namespace: platform
 spec:
   connector:
-    tpch: {}
+    tpch:
+      s3:
+        inline:
+          host: minio
+          port: 9000
+          pathStyleAccess: true
+          secretClass: minio-credentials
+          tls:
+            verification:
+              server:
+                caCert:
+                  secretClass: minio-tls-certificates
