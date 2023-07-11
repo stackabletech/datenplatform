@@ -37,7 +37,7 @@ spec:
   workers:
     roleGroups:
       default:
-        replicas: 2
+        replicas: 1
   schedulers:
     roleGroups:
       default:
