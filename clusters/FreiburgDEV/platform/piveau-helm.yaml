@@ -13,13 +13,13 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: piveau
+  name: piveau-hub
   namespace: platform
 spec:
   interval: 5m
   chart:
     spec:
-      chart: piveau-hub
+      chart: ./charts/hub/Chart.yaml
       reconcileStrategy: ChartVersion
       version: '1.0.0'
       sourceRef:
