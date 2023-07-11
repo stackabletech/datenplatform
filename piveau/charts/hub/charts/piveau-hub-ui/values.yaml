@@ -15,14 +15,14 @@ extraEnvs: []
 service:
   port: 8080
 
-searchAddress: http://piveau.freiburg.stackable.tech/
-repoAddress: http://piveau.freiburg.stackable.tech/
+searchAddress: http://piveau.freiburg.stackable.de/
+repoAddress: http://piveau.freiburg.stackable.de/
 
 ingress:
   enabled: false
   annotations:
     kubernetes.io/ingress.class: nginx
-  host: piveau.freiburg.stackable.tech
+  host: piveau.freiburg.stackable.de
   path: /
   pathType: Prefix
   extraHosts: []

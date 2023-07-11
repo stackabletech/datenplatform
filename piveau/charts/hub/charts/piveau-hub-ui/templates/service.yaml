@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "piveau-hub-ui.labels" . | nindent 4 }}
 spec:
+  type: LoadBalancer
   ports:
     - name: http
       port: {{ .Values.service.port }}

@@ -5,6 +5,7 @@
 global:
   searchApiKey: mySearchApiKey
   repoApiKey: myRepoApiKey
+  redirect: piveau.freiburg.stackable.de
 
 tags:
   piveau-hub: true

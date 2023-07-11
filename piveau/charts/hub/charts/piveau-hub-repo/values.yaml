@@ -24,7 +24,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
   hosts:
-    - host: piveau.freiburg.stackable.tech
+    - host: piveau.freiburg.stackable.de
       paths:
         - path: /repo/
           pathType: Prefix
