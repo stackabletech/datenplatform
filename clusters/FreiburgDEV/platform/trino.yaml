@@ -36,18 +36,18 @@ metadata:
   namespace: platform
 spec:
   connector:
-    tpcds: {}
-    s3:
-      inline:
-        host: minio
-        port: 9000
-        pathStyleAccess: true
-        secretClass: minio-credentials
-        tls:
-          verification:
-            server:
-              caCert:
-                secretClass: minio-tls-certificates
+    tpcds: 
+      s3:
+        inline:
+          host: minio
+          port: 9000
+          pathStyleAccess: true
+          secretClass: minio-credentials
+          tls:
+            verification:
+              server:
+                caCert:
+                  secretClass: minio-tls-certificates
 ---
 apiVersion: trino.stackable.tech/v1alpha1
 kind: TrinoCatalog
