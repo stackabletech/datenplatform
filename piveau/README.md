@@ -6,11 +6,11 @@ By default, this helm chart installs a basic piveau system, including a reposito
 
 ## Install
 
-    helm install stackable -f values.yaml .
+    helm install --namespace piveau --create-namespace stackable -f values.yaml .
 
 ## Upgrade
 
-    helm upgrade --install stackable -f values.yaml .
+    helm upgrade --install --namespace piveau --create-namespace stackable -f values.yaml .
 
 ## Configuration
 
