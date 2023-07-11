@@ -6,6 +6,13 @@ By default, this helm chart installs a basic piveau system, including a reposito
 
 ## Install
 
+    helm install stackable -f values.yaml .
+
 ## Upgrade
 
+    helm upgrade --install stackable -f values.yaml .
+
 ## Configuration
+
+    t.b.d
+        
