@@ -6,7 +6,7 @@ metadata:
   namespace: platform
 spec:
   interval: 1m
-  url: https://github.com/stackabletech/datenplatform/tree/main/clusters/FreiburgDEV/platform
+  url: https://github.com/stackabletech/datenplatform/clusters/FreiburgDEV/platform
   ref:
     branch: master
 ---
