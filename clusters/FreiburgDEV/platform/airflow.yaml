@@ -30,6 +30,10 @@ spec:
     loadExamples: true
     exposeConfig: false
     credentialsSecret: simple-airflow-credentials
+    dagsGitSync:
+      - repo: https://github.com/stackabletech/datenplatform/
+        branch: "main"
+        gitFolder: "airflow_dags"
   webservers:
     roleGroups:
       default:
