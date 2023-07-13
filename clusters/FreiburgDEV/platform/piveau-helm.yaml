@@ -6,7 +6,7 @@ metadata:
   namespace: platform
 spec:
   interval: 1m
-  url: https://github.com/stackabletech/datenplatform/clusters/FreiburgDEV/platform/piveau
+  url: https://github.com/stackabletech/datenplatform/
   ref:
     branch: main
 ---
@@ -19,7 +19,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: piveau-hub
+      chart: ./clusters/FreiburgDEV/platform/piveau
       reconcileStrategy: ChartVersion
       version: '1.0.0'
       sourceRef:
