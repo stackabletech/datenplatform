@@ -6,9 +6,9 @@ metadata:
   namespace: platform
 spec:
   interval: 1m
-  url: https://github.com/stackabletech/datenplatform/clusters/FreiburgDEV/platform
+  url: https://github.com/stackabletech/datenplatform/clusters/FreiburgDEV/platform/piveau
   ref:
-    branch: master
+    branch: main
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
