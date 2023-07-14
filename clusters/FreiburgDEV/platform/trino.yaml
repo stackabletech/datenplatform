@@ -79,3 +79,15 @@ spec:
         configMap: hive-iceberg
       s3:
         reference: ionos
+---
+apiVersion: trino.stackable.tech/v1alpha1
+kind: TrinoCatalog
+metadata:
+  name: storage
+  namespace: platform
+  labels:
+    trino: trino
+spec:
+  connector:
+    generic:
+      connectorName: storage
