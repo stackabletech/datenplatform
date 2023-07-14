@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
     - opa.yaml
       #- zookeeper.yaml
+    - hive-metastores.yaml
     - trino.yaml
     - trino-secrets.yaml
     - superset.yaml
