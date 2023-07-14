@@ -11,10 +11,11 @@ with models.DAG(
         tags=["datenplatform", "maintenance"],
 ) as dag:
     tables = [
-        "lakehouse.platform.bikes_history",
         "lakehouse.platform.parking_garages_history",
-        "lakehouse.platform.roxy_history",
-        "lakehouse.platform.yoio_history",
+        "lakehouse.platform.freibe_history",
+#        "lakehouse.platform.bikes_history",
+#        "lakehouse.platform.roxy_history",
+#        "lakehouse.platform.yoio_history",
     ]
     for table in tables:
         TrinoOperator(
@@ -24,6 +25,6 @@ with models.DAG(
         )
         TrinoOperator(
             task_id=f"trino_maintenance_expire_snapshots_{table}",
-            sql=f"alter table {table} execute expire_snapshots(retention_threshold => '7d')",
+            sql=f"alter table {table} execute expire_snapshots(retention_threshold => '2d')",
             handler=list,
         )
