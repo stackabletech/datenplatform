@@ -15,12 +15,12 @@ with models.DAG(
         sql=f"""
 insert into lakehouse.platform.freibe_history
 select
-	id,
-	now(),
-	fuel_level,
-	vehicle_type_id,
-	latitude,
-	longitude
+    id,
+    now(),
+    fuel_level,
+    vehicle_type_id,
+    latitude,
+    longitude
 from staging.platform.freibe
         """,
         handler=list,
