@@ -34,6 +34,7 @@ spec:
       - repo: https://github.com/stackabletech/datenplatform/
         branch: "main"
         gitFolder: "airflow_dags"
+    listenerClass: external-stable
   webservers:
     roleGroups:
       default:

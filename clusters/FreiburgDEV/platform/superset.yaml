@@ -9,7 +9,7 @@ spec:
     productVersion: 2.1.0
     stackableVersion: 0.0.0-dev
   clusterConfig:
-    listenerClass: external-unstable
+    listenerClass: external-stable
   credentialsSecret: superset-credentials
   loadExamplesOnInit: false
   nodes:
