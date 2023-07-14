@@ -6,7 +6,7 @@ metadata:
   namespace: platform
 spec:
   image:
-    productVersion: "403"
+    productVersion: "414"
     stackableVersion: "0.0.0-dev"
   clusterConfig:
     catalogLabelSelector:
