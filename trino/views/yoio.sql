@@ -1,4 +1,4 @@
-CREATE VIEW staging.smart_city.yoio AS
+CREATE VIEW staging.platform.yoio AS
 WITH json AS (SELECT CAST(
                              json_parse(JSON_QUERY(data FORMAT JSON, 'lax $.features[*]' WITH UNCONDITIONAL ARRAY WRAPPER NULL ON EMPTY NULL ON ERROR)) AS array
                              (ROW(properties ROW(nr varchar, current_range_meters bigint, rental_uri_android varchar, rental_uri_ios varchar, rental_uri_web varchar), geometry ROW(type varchar, coordinates array(double))))) yoio

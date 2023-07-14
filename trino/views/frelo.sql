@@ -1,4 +1,4 @@
-CREATE VIEW staging.smart_city.frelo AS
+CREATE VIEW staging.platform.frelo AS
 WITH bikes AS (SELECT *
                FROM storage.csv."https://geoportal.freiburg.de/wfs/gdm_sharing/gdm_sharing?request=GetFeature&service=WFS&version=1.1.0&typeName=:frelo&outputFormat=text%2Fcsv&SRSNAME=urn:ogc:def:crs:EPSG::4326")
 SELECT ST_GeometryFromText(trim(LEADING '"' FROM trim(TRAILING '"' FROM wkt)))                                              location

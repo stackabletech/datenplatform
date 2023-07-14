@@ -37,7 +37,7 @@ with models.DAG(
         task_id="trino_insert",
         sql=f"""insert
 	into
-		lakehouse.smart_city.roxy_history 
+		lakehouse.platform.roxy_history
 	select
 		current_timestamp(6) as timestamp,
 		id,
@@ -45,7 +45,7 @@ with models.DAG(
 		latitude,
 		longitude
 from
-		staging.smart_city.roxy""",
+		staging.platform.roxy""",
         handler=list,
     )
     (

@@ -11,10 +11,10 @@ with models.DAG(
         tags=["datenplatform", "maintenance"],
 ) as dag:
     tables = [
-        "lakehouse.smart_city.bikes_history",
-        "lakehouse.smart_city.parking_garages_history",
-        "lakehouse.smart_city.roxy_history",
-        "lakehouse.smart_city.yoio_history",
+        "lakehouse.platform.bikes_history",
+        "lakehouse.platform.parking_garages_history",
+        "lakehouse.platform.roxy_history",
+        "lakehouse.platform.yoio_history",
     ]
     for table in tables:
         TrinoOperator(

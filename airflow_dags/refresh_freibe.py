@@ -33,7 +33,7 @@ with models.DAG(
 ) as dag:
     trino_insert = TrinoOperator(
         task_id="trino_insert",
-        sql=f"""insert into lakehouse.smart_city.freibe_history select * from staging.smart_city.freibe""",
+        sql=f"""insert into lakehouse.platform.freibe_history select * from staging.platform.freibe""",
         handler=list,
     )
     (

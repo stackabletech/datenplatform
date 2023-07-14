@@ -1,4 +1,4 @@
-CREATE VIEW staging.smart_city.roxy AS
+CREATE VIEW staging.platform.roxy AS
 WITH json AS (SELECT CAST(
                              json_parse(JSON_QUERY(data FORMAT JSON, 'lax $.features[*]' WITH UNCONDITIONAL ARRAY WRAPPER NULL ON EMPTY NULL ON ERROR)) AS array
                              (ROW(properties ROW(id varchar, reserved varchar), geometry ROW(type varchar, coordinates array(double))))) roxies

@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW lakehouse.smart_city.roxy_persistent AS
+CREATE MATERIALIZED VIEW lakehouse.platform.roxy_persistent AS
 WITH
   json AS (
    SELECT CAST(json_parse(JSON_QUERY(data FORMAT JSON, 'lax $.features[*]' WITH UNCONDITIONAL ARRAY WRAPPER NULL ON EMPTY NULL ON ERROR)) AS array(ROW(properties ROW(id varchar, reserved varchar), geometry ROW(type varchar, coordinates array(double))))) roxies

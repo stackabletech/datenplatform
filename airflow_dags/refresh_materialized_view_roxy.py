@@ -33,7 +33,7 @@ with models.DAG(
 ) as dag:
     trino_insert = TrinoOperator(
         task_id="trino_insert",
-        sql=f"""refresh materialized view lakehouse.smart_city.roxy_persistent""",
+        sql=f"""refresh materialized view lakehouse.platform.roxy_persistent""",
         handler=list,
     )
     (
