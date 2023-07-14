@@ -1,12 +1,37 @@
----
 apiVersion: s3.stackable.tech/v1alpha1
 kind: S3Connection
 metadata:
-  name: minio
+  name: ionos
   namespace: platform
 spec:
-  host: minio
-  port: 9000
-  accessStyle: Path
+  host: s3-eu-central-2.ionoscloud.com # See https://api.ionos.com/docs/s3/v2/. Ping from Berlin (de/tlx) shows 11 ms to s3-eu-central-1.ionoscloud.com and 1 ms to s3-eu-central-2.ionoscloud.com
+  port: 443
+  tls:
+    verification:
+      server:
+        caCert:
+          webPki: {}
   credentials:
-    secretClass: minio-s3-credentials
+    secretClass: ionos-s3-credentials
+---
+apiVersion: secrets.stackable.tech/v1alpha1
+kind: SecretClass
+metadata:
+  name: ionos-s3-credentials
+spec:
+  backend:
+    k8sSearch:
+      searchNamespace:
+        pod: {}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ionos-s3-credentials
+  namespace: platform
+  labels:
+    secrets.stackable.tech/class: ionos-s3-credentials
+stringData:
+# sbernauers private credentials, as we created the bucket in Stackable IONOS contract, as we don't have access to theirs
+  accessKey: 00f35fc696b1043b4f52
+  secretKey: hPegAl1w+6gzvxCWkZUCDHMDYuXp/b3MQxHRksYa
