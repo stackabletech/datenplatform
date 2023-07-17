@@ -10,8 +10,8 @@ spec:
     stackableVersion: 0.0.0-dev
   clusterConfig:
     listenerClass: external-stable
-  credentialsSecret: superset-credentials
-  loadExamplesOnInit: false
+    credentialsSecret: superset-credentials
+    loadExamplesOnInit: false
   nodes:
     roleGroups:
       default:
