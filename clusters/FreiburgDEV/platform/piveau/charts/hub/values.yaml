@@ -14,10 +14,6 @@ tags:
 piveau-hub-repo:
   ingress:
     enabled: true
-  extraEnvs:
-  # TODO: template in deployment env
-  #- name: PIVEAU_HUB_SEARCH_SERVICE
-  #  value: "{\"enabled\":true,\"url\":\"stackable-piveau-hub-search\",\"port\":8080,\"api_key\":\"mySearchApiKey\"}"
   virtuoso:
     persistence:
       enabled: true
