@@ -51,14 +51,17 @@ sparql_query = """
     }
 """
 
+# load trino connection details from file
+import trino_connection
+
 engine = create_engine('trino://admin:***REMOVED***@85.215.223.118:31488/lakehouse')
 engine = create_engine(
     URL(
-        host="85.215.223.118",
-        port=31488,
-        catalog="lakehouse",
-        user="admin",
-        password="***REMOVED***"
+        host=trino_connection.host,
+        port=trino_connection.port,
+        catalog=trino_connection.catalog,
+        user=trino_connection.user,
+        password=trino_connection.password
     ),
     connect_args={
         "verify": False
