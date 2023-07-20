@@ -1,2 +1,2 @@
 /.idea/
-scripts/dcat2trino/trino_connection.py
+/scripts/dcat2trino/trino_connection.py
