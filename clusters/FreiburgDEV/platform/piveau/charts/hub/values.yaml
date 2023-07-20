@@ -12,16 +12,23 @@ tags:
   piveau-hub-ui: true
   
 piveau-hub-repo:
+  imageTag: 2.2.3
   ingress:
     enabled: true
   virtuoso:
     persistence:
       enabled: true
 piveau-hub-search:
-  imageTag: latest
+  imageTag: 5.0.1
   ingress:
     enabled: true
 piveau-hub-ui:
-  imageTag: latest  
+  # latest has problems: $VUE_APP_CONTENT_CATALOGS_FACETS_DEFAULT not defined
+  # Setting it via env will be picked up but not replaced from the runtimeconfig.sh due to problem in js conf (missing quotes):
+  # { ...
+  #   showFacetsTitle:"$VUE_APP_CONTENT_CATALOGS_FACETS_SHOW_FACETS_TITLE",
+  #   defaultFacetOrder:$VUE_APP_CONTENT_CATALOGS_FACETS_DEFAULT_FACET_ORDER
+  # }
+  imageTag: v1.12.1
   ingress:
     enabled: true
