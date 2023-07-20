@@ -30,5 +30,11 @@ piveau-hub-ui:
   #   defaultFacetOrder:$VUE_APP_CONTENT_CATALOGS_FACETS_DEFAULT_FACET_ORDER
   # }
   imageTag: v1.12.1
+  extraEnvs:
+    # Do not use any authentication (default is keycloak for v1.12.1 and that takes about 10s to fail when loading the UI)
+    - name: VUE_APP_AUTHENTICATION_USE_SERVICE
+      value: "false"
+    #- name: VUE_APP_CORSPROXY_API_URL
+    #  value: "http://test.com"
   ingress:
     enabled: true
