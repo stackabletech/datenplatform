@@ -54,7 +54,7 @@ sparql_query = """
 # load trino connection details from file
 import trino_connection
 
-engine = create_engine('trino://admin:***REMOVED***@85.215.223.118:31488/lakehouse')
+engine = create_engine('trino://admin:adminadmin@85.215.223.118:31488/lakehouse')
 engine = create_engine(
     URL(
         host=trino_connection.host,
