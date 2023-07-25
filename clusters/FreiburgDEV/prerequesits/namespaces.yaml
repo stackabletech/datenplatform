@@ -4,10 +4,12 @@ kind: Namespace
 metadata:
   name: platform
 ---
----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: sble-operators
 ---
-
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
