@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-        #- opa.yaml
+      - opa.yaml
         #- zookeeper.yaml
-        #- hive-metastores.yaml
-        #- trino.yaml
-        #- trino-secrets.yaml
-        #- superset.yaml
-        #- airflow.yaml
-        #- piveau-helm.yaml
+      - hive-metastores.yaml
+      - trino.yaml
+      - trino-secrets.yaml
+      - superset.yaml
+      - airflow.yaml
+      - piveau-helm.yaml
