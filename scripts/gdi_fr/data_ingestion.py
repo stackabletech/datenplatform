@@ -5,10 +5,11 @@ from io import StringIO
 
 import requests
 import pandas as pd
-import trino_connection
 from trino.sqlalchemy import URL
 from sqlalchemy import create_engine
 from sqlalchemy.sql import expression
+
+from scripts.dcat2trino import trino_connection
 
 
 def cleanup_name(name):
@@ -67,7 +68,7 @@ urls = [
     "https://geoportal.freiburg.de/wfs/stpla_satzung/stpla_satzung?request=getfeature&service=wfs&version=2.0.0&typename=ms:erhaltungssatzung&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/stpla_satzung/stpla_satzung?request=getfeature&service=wfs&version=2.0.0&typename=ms:sanierungssatzung&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/stpla_satzung/stpla_satzung?request=getfeature&service=wfs&version=2.0.0&typename=ms:vorkaufssatzung&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/stpla_bplan_verf/stpla_bplan_verf?request=getfeature&service=wfs&version=2.0.0&typename=ms:bplan_verf&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/stpla_bplan_verf/stpla_bplan_verf?request=getfeature&service=wfs&version=2.0.0&typename=ms:bplan_verf&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/stav_strlex/stav_strlex?request=getfeature&service=wfs&version=2.0.0&typename=ms:strlex&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_winter/gut_winter?request=getfeature&service=wfs&version=2.0.0&typename=ms:strassen_winter&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_winter/gut_winter?request=getfeature&service=wfs&version=2.0.0&typename=ms:radwege_winter&outputformat=csv&srsname=epsg:25832",
@@ -75,7 +76,7 @@ urls = [
     "https://geoportal.freiburg.de/wfs/gut_spielplatz/gut_spielplatz?request=getfeature&service=wfs&version=2.0.0&typename=ms:bolzplaetze&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_spielplatz/gut_spielplatz?request=getfeature&service=wfs&version=2.0.0&typename=ms:skateplaetze&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_spielplatz/gut_spielplatz?request=getfeature&service=wfs&version=2.0.0&typename=ms:spielplaetze&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/gut_off_obj/komregie_strassen?request=getfeature&service=wfs&version=2.0.0&typename=ms:strassen&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/gut_off_obj/komregie_strassen?request=getfeature&service=wfs&version=2.0.0&typename=ms:strassen&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_laerm/gut_laerm?request=getfeature&service=wfs&version=2.0.0&typename=ms:bahn_nacht&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_laerm/gut_laerm?request=getfeature&service=wfs&version=2.0.0&typename=ms:bahn_tag&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gut_laerm/gut_laerm?request=getfeature&service=wfs&version=2.0.0&typename=ms:strasse_nacht&outputformat=csv&srsname=epsg:25832",
@@ -121,10 +122,10 @@ urls = [
     "https://geoportal.freiburg.de/wfs/gdm_poi/gdm_poi?request=getfeature&service=wfs&version=2.0.0&typename=ms:haltestellen&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gdm_poi/gdm_poi?request=getfeature&service=wfs&version=2.0.0&typename=ms:grundschulen&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gdm_plz/gdm_plz?request=getfeature&service=wfs&version=2.0.0&typename=ms:plz_fr&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls_no_zone&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls2&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:parkzonen_live&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls_no_zone&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:pls2&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/gdm_pls/gdm_pls?request=getfeature&service=wfs&version=2.0.0&typename=ms:parkzonen_live&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gdm_ls_moovility/gdm_ls_moovility?request=getfeature&service=wfs&version=1.1.0&typename=ms:ladesaeulen&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gdm_ls_moovility/gdm_ls_moovility?request=getfeature&service=wfs&version=1.1.0&typename=ms:ladesaeulen_raw&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/gdm_gemarkung/gdm_gemarkung?request=getfeature&service=wfs&version=2.0.0&typename=ms:gemarkungen&outputformat=csv&srsname=epsg:25832",
@@ -139,13 +140,13 @@ urls = [
     "https://geoportal.freiburg.de/wfs/aki_kita/aki_kita?request=getfeature&service=wfs&version=2.0.0&typename=ms:kita_fritz&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/aki_kita/aki_kita?request=getfeature&service=wfs&version=2.0.0&typename=ms:kita_waldwaegen&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/aki_kita/aki_kita?request=getfeature&service=wfs&version=2.0.0&typename=ms:okja&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:begegnungsst&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:beratung_aeltere&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:pflegeeinrichtungen&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:seniorenwohnanlagen&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:wohnstift&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:tagespflege&outputformat=csv&srsname=epsg:25832",
-    "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:pflegewohngruppe&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:begegnungsst&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:beratung_aeltere&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:pflegeeinrichtungen&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:seniorenwohnanlagen&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:wohnstift&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:tagespflege&outputformat=csv&srsname=epsg:25832",
+    # "https://geoportal.freiburg.de/wfs/afs_begegnungsstaetten/afs_begegnungsstaetten?request=getfeature&service=wfs&version=2.0.0&typename=ms:pflegewohngruppe&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/afo_evak/afo_evak_test_alle?request=getfeature&service=wfs&version=2.0.0&typename=ms:evakuierungsradius&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/afo_evak/afo_evak_test_alle?request=getfeature&service=wfs&version=2.0.0&typename=ms:geb_in_radius&outputformat=csv&srsname=epsg:25832",
     "https://geoportal.freiburg.de/wfs/afo_evak/afo_evak_test_alle?request=getfeature&service=wfs&version=2.0.0&typename=ms:addr_in_radius&outputformat=csv&srsname=epsg:25832",
@@ -181,27 +182,30 @@ urls = [
     "https://geoportal.freiburg.de/wfs/abi_gliederung/abi_gliederung?request=getfeature&service=wfs&version=2.0.0&typename=ms:stadtteile_out&outputformat=csv&srsname=epsg:25832"
 ]
 
-# engine = create_engine('trino://admin:adminadmin@85.215.223.118:31488/lakehouse')
-engine = create_engine(
-    URL(
-        host=trino_connection.host,
-        port=trino_connection.port,
-        catalog=trino_connection.catalog,
-        user=trino_connection.user,
-        password=trino_connection.password
-    ),
-    connect_args={
-        "verify": False
-    }
-)
-connection = engine.connect()
-typemapping = {"object": "varchar", "int64": "bigint", "float64": "double"}
+# engine = create_engine(
+#     URL(
+#         host=trino_connection.host,
+#         port=trino_connection.port,
+#         catalog=trino_connection.catalog,
+#         user=trino_connection.user,
+#         password=trino_connection.password
+#     ),
+#     connect_args={
+#         "verify": False
+#     }
+# )
+# connection = engine.connect()
+# typemapping = {"object": "varchar", "int64": "bigint", "float64": "double"}
 
-for url in urls[:1]:
+for url in urls:
+    print(url)
     r = requests.get(url)
 
     text = StringIO(r.content.decode('utf-8'))
-    df = pd.read_csv(text)
+    try:
+        df = pd.read_csv(text)
+    except pd.errors.ParserError:
+        print(url, 'Parse Error CSV')
     df_new = pd.DataFrame()
     for col in df.columns:
         try:
@@ -216,22 +220,22 @@ for url in urls[:1]:
     description_1 = url.split('?')[0].split('/')[-1]
     description_2 = url.split('typename=ms:')[-1].split('&')[0]
     sqlfile = f"sql/{description_1}_{description_2}.sql"
-    with open(sqlfile, 'w') as writer:
-        statement = f"CREATE or REPLACE VIEW staging.smart_city.{description_1}_{description_2} AS\n"
-        statement += f"WITH temp AS (SELECT *\n"
-        statement += f"\tFROM storage.csv.\"{row.downloadurl}\")\n"
-        statement += f"SELECT\n"
-        for column in range(len(df.columns)):
-            statement += f"\tCAST(trim(LEADING '\"' FROM trim(TRAILING '\"' FROM \"{df.columns[column]}\")) AS {typemapping[str(df.dtypes[column])]}) {cleanup_name(df.columns[column])}"
-            if column < len(df.columns) - 1:
-                statement += ",\n"
-            else:
-                statement += "\n"
-        statement += f"FROM temp\n"
-        writer.write(statement, ";")
-
-        try:
-            connection.execute(expression.text(statement))
-        except Exception as e:
-            print(f"Failed to create table [{description_1}_{description_2}] due to [{e}]")
-            continue
+    # with open(sqlfile, 'w') as writer:
+    #     statement = f"CREATE or REPLACE VIEW staging.smart_city.{description_1}_{description_2} AS\n"
+    #     statement += f"WITH temp AS (SELECT *\n"
+    #     statement += f"\tFROM storage.csv.\"{row.downloadurl}\")\n"
+    #     statement += f"SELECT\n"
+    #     for column in range(len(df.columns)):
+    #         statement += f"\tCAST(trim(LEADING '\"' FROM trim(TRAILING '\"' FROM \"{df.columns[column]}\")) AS {typemapping[str(df.dtypes[column])]}) {cleanup_name(df.columns[column])}"
+    #         if column < len(df.columns) - 1:
+    #             statement += ",\n"
+    #         else:
+    #             statement += "\n"
+    #     statement += f"FROM temp\n"
+    #     writer.write(statement, ";")
+    #
+    #     try:
+    #         connection.execute(expression.text(statement))
+    #     except Exception as e:
+    #         print(f"Failed to create table [{description_1}_{description_2}] due to [{e}]")
+    #         continue
