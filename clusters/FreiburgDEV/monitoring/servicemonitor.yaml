@@ -4,7 +4,6 @@ metadata:
   name: scrape-label
   labels:
     release: prometheus
-  namespace: monitoring
 spec:
   endpoints:
   - port: metrics
