@@ -1,9 +1,10 @@
-apiVersion: monitoring.coreos.com/v1
+iVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: scrape-label
   labels:
     release: prometheus
+  namespace: monitoring
 spec:
   endpoints:
   - port: metrics
