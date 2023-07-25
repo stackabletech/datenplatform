@@ -7,7 +7,7 @@ metadata:
 spec:
   chart:
     spec:
-      chart: prometheus-community/kube-prometheus-stack
+      chart: prometheus
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
