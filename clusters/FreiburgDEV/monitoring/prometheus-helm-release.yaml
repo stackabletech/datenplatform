@@ -7,10 +7,10 @@ metadata:
 spec:
   chart:
     spec:
-      chart: prometheus
+      chart: prometheus-community/kube-prometheus-stack
       reconcileStrategy: ChartVersion
       sourceRef:
         kind: HelmRepository
         name: prometheus-repository
-      version: 23.1.0
+      version: 47.0.0
   interval: 1m0s
