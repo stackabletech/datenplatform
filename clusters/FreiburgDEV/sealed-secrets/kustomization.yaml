@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - airflow-credentials-sealed.yaml
   - superset-credentials-sealed.yaml
+  - trino-credentials-sealed.yaml
