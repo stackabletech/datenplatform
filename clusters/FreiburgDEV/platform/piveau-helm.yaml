@@ -25,5 +25,5 @@ spec:
       sourceRef:
         kind: GitRepository
         name: piveau-repository
-        namespace: platform
+        namespace: piveau
       interval: 1m
