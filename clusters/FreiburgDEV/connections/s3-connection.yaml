@@ -23,15 +23,4 @@ spec:
     k8sSearch:
       searchNamespace:
         pod: {}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ionos-s3-credentials
-  namespace: platform
-  labels:
-    secrets.stackable.tech/class: ionos-s3-credentials
-stringData:
-# sbernauers private credentials, as we created the bucket in Stackable IONOS contract, as we don't have access to theirs
-  accessKey: 00f35fc696b1043b4f52
-  secretKey: hPegAl1w+6gzvxCWkZUCDHMDYuXp/b3MQxHRksYa
+
