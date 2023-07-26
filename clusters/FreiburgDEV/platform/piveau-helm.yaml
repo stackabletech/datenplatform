@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: piveau-repository
-  namespace: platform
+  namespace: piveau
 spec:
   interval: 1m
   url: https://github.com/stackabletech/datenplatform/
@@ -14,7 +14,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: piveau 
-  namespace: platform
+  namespace: piveau
 spec:
   interval: 5m
   chart:
