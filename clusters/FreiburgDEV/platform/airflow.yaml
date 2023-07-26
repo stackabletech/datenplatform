@@ -15,7 +15,7 @@ spec:
     credentialsSecret: simple-airflow-credentials
     dagsGitSync:
       - repo: https://github.com/stackabletech/datenplatform/
-        branch: "main"
+        branch: "freiburg-stable"
         gitFolder: "airflow_dags"
     listenerClass: external-stable
   webservers:
