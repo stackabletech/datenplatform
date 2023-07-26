@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - prometheus-helm-source.yaml
   - prometheus-helm-release.yaml
-  #- servicemonitor.yaml
+  - servicemonitor.yaml
