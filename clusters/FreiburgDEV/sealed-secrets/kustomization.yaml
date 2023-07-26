@@ -4,3 +4,4 @@ resources:
   - airflow-credentials-sealed.yaml
   - superset-credentials-sealed.yaml
   - trino-credentials-sealed.yaml
+  - ionos-s3-credentials-sealed.yaml 
