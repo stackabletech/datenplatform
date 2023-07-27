@@ -11,6 +11,7 @@ spec:
   clusterConfig:
     listenerClass: external-stable
     credentialsSecret: superset-credentials
+    mapboxSecret: superset-mapbox-api-key
     loadExamplesOnInit: false
   nodes:
     roleGroups:
