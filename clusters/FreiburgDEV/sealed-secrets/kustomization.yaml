@@ -5,3 +5,4 @@ resources:
   - superset-credentials-sealed.yaml
   - trino-credentials-sealed.yaml
   - ionos-s3-credentials-sealed.yaml
+  - mapbox-api-key-sealed.yaml
