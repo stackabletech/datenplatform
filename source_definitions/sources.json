@@ -1,0 +1,42 @@
+{
+  "dcatap": [
+    "https://fritz.freiburg.de/duva2dcat/dcat/catalog"
+  ],
+  "wfs": [
+    {
+      "base_url": "https://geoportal.freiburg.de/wfs",
+      "services": [
+        "abi_gliederung/abi_gliederung",
+        "abi_gsb/abi_gsb",
+        "abk_feuerwehr/abk_feuerwehr",
+        "afo_evak/afo_evak",
+        "afo_evak/afo_evak_test_alle",
+        "afs_begegnungsstaetten/afs_begegnungsstaetten",
+        "aki_kita/aki_kita",
+        "fa_befall/fa_befall",
+        "gdm_address/gdm_address",
+        "gdm_fahrrad_stat/gdm_fahrrad_stat",
+        "gdm_gemarkung/gdm_gemarkung",
+        "gdm_ls_moovility/gdm_ls_moovility",
+        "gdm_pls/gdm_pls",
+        "gdm_plz/gdm_plz",
+        "gdm_poi/gdm_poi",
+        "gdm_sharing/gdm_sharing",
+        "gdm_verkehrssensorik/gdm_verkehrssensorik",
+        "gut_grillstellen/gut_grillstellen",
+        "gut_laerm/gut_laerm",
+        "gut_off_obj/komregie_strassen",
+        "gut_spielplatz/gut_spielplatz",
+        "gut_winter/gut_winter",
+        "stav_strlex/stav_strlex",
+        "stpla_bplan_verf/stpla_bplan_verf",
+        "stpla_satzung/stpla_satzung",
+        "uwsa_oekol_stdplan/oekol_stdplan",
+        "uwsa_wasser/uwsa_wasser",
+        "vag_stops/vag_stops",
+        "verma_brw/verma_brw",
+        "verma_gga/verma_gga_lageklassen"
+      ]
+    }
+  ]
+}

@@ -5,8 +5,9 @@ import pandas as pd
 from sqlalchemy import create_engine
 from trino.sqlalchemy import URL
 from sqlalchemy.sql.expression import select, text
+import json
 
-urllib.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+#urllib.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def cleanup_name(name):
     return str(name) \
@@ -54,6 +55,24 @@ sparql_query = """
 # load trino connection details from file
 import trino_connection
 
+with open('../../source_definitions/sources.json') as sources_file:
+    file_contents = sources_file.read()
+
+sources_json = json.loads(file_contents)
+
+for endpoint in sources_json["wfs"]:
+    base_url = endpoint["base_url"]
+    for service in endpoint["services"]:
+        capabilitiesUrl = base_url + '/' + service + '?SERVICE=WFS&REQUEST=GetCapabilities'
+        print(capabilitiesUrl)
+        with urllib.request.urlopen(capabilitiesUrl) as response:
+            data = response.read()
+            import xmltodict
+            dict = xmltodict.parse(data)
+            for featureType in dict["wfs:WFS_Capabilities"]["FeatureTypeList"]["FeatureType"]:
+                print(featureType["Name"])
+
+exit(1)
 engine = create_engine('trino://admin:adminadmin@85.215.223.118:31488/lakehouse')
 engine = create_engine(
     URL(
