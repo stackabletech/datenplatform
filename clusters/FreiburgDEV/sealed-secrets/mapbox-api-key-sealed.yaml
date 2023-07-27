@@ -1,0 +1,16 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: superset-mapbox-api-key
+  namespace: default
+spec:
+  encryptedData:
+    connections.mapboxApiKey: AgAdPnEnzy8ZAr3NKf2LydWoyl28DpIzghX7cow/ROLGzrhI+63o/zHLmCNG/3Xc1+qZ4gpmKtRuWZW5gO9iLHNBbCZUZh9aC7hUGbsVgO+C75F1nO7XFnUVcygPZ1HCQs2w6yKQ2K6MzSwAN/cu3+hg8mc2IoMk1Xt7XaCO78Fe5r0MxNJMUrvZP5N9S32F+n6xo/LvtoNlsauKViAdrmzRTcL+7IB6HYiVCYQa0An+dyU+0Mn5WqNR32a9F7BDVmQC5a/gCm8pV2KkpMCVZvdMmVlhqE9gaRGMOJV80xNbgkaB6nenH3gDIxN5LnVsh9USDIEDoUIMJoGhYHKDEzxe/9P/j3qb+7ZrCPX+vJfwAuOXPQbb/XqLcUlFNkccSbRFm8BSnmo3vGCagXGP8AgiW62tWZlZAf/6nROqOjrFl+Mw7FUj09JpBcBJliu+sj99oBJ53k2NTO6M/VDl5DB3gSVKz2F5cipq8ZsK/DQ6EL6RmhC6d2JZwSMeutMXWIfJoPJJcpWtKjelPqfWep4fcce01Fhg2QLXbqgSQMGwjCXgE3u+QjhOK56iv0qYbHvdsUs4T6HfIj2lnK1tM64ms2Z6LcwvZI5XLOyUfAf2QcUoGK56hZQqJQKkDQPIfTfmCmISruJtNL3GokE162Eev43M3qYwHvMmaW0vH4ekGRPqjDcUeIeBda3HG8KLJTcl7zFTJHN7lsNoTWvTR2zvj4fASU+voZyXeaZ70HBw00bkmdlmV3sKkLt37wgs3q8a/I/MLf1gjtnU6rbUqj/mqIm+Wb3xU1kQFmIu6v22MAaKgBWVFppPwypkZXXcUiEx
+  template:
+    metadata:
+      creationTimestamp: null
+      name: superset-mapbox-api-key
+      namespace: default
+    type: Opaque
+
