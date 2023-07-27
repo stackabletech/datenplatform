@@ -1,0 +1,12 @@
+apiVersion: v2
+name: piveau-consus-scheduling
+description: Helm chart for the piveau consus scheduling component
+
+version: 1.0.0
+appVersion: "2.0.1"
+
+maintainers:
+  - name: Simon Dutkowski
+    email: simon.dutkowski@fokus.fraunhofer.de
+
+icon: https://www.piveau.de/css/img/piveau-logo.svg

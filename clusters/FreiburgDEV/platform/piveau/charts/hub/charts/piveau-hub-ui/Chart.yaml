@@ -1,0 +1,9 @@
+apiVersion: v2
+appVersion: latest
+description: Helm chart for the piveau hub ui component
+icon: https://www.piveau.de/css/img/piveau-logo.svg
+maintainers:
+- email: simon.dutkowski@fokus.fraunhofer.de
+  name: Simon Dutkowski
+name: piveau-hub-ui
+version: 1.0.0

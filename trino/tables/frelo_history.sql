@@ -1,4 +1,4 @@
-CREATE TABLE lakehouse.smart_city.frelo_history
+CREATE TABLE lakehouse.platform.frelo_history
 (
     timestamp          timestamp(6) with time zone,
     longitude          double,
@@ -11,9 +11,4 @@ CREATE TABLE lakehouse.smart_city.frelo_history
     station_number     bigint,
     freloplus          boolean,
     free_cargo_bikes   bigint
-)
-    WITH (
-        format = 'ORC',
-        format_version = 2,
-        location = 's3a://stackable-freiburg-lakehouse/smart-city/bikes_history-5bb7601001724a8c9149801e30cdbcc1'
-        );
+);

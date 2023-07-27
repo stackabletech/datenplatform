@@ -1,0 +1,15 @@
+{{- if .Values.virtuoso.persistence.enabled -}}
+{{- $fullName := include "piveau-hub-repo.virtuosoName" . -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-hub-repo.virtuosoLabels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.virtuoso.persistence.size }}
+{{- end }}

@@ -1,4 +1,4 @@
-CREATE VIEW staging.smart_city.parking_garages SECURITY DEFINER AS
+CREATE OR REPLACE VIEW staging.platform.parking_garages SECURITY DEFINER AS
     WITH
     json AS (
     SELECT CAST (json_parse(JSON_QUERY(data FORMAT JSON, 'lax $.features[*]' WITH UNCONDITIONAL ARRAY WRAPPER NULL ON EMPTY NULL ON ERROR

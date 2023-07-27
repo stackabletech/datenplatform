@@ -1,4 +1,4 @@
-CREATE TABLE lakehouse.smart_city.yoio_history
+CREATE TABLE lakehouse.platform.yoio_history
 (
     timestamp            timestamp(6) with time zone,
     nr                   varchar,
@@ -8,9 +8,4 @@ CREATE TABLE lakehouse.smart_city.yoio_history
     rental_uri_web       varchar,
     latitude             double,
     longitude            double
-)
-    WITH (
-        format = 'ORC',
-        format_version = 2,
-        location = 's3a://stackable-freiburg-lakehouse/smart-city/yoio_history-4621cfebb26045c7928f0925917e436b'
-        );
+);

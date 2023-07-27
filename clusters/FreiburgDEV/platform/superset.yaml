@@ -1,0 +1,23 @@
+---
+apiVersion: superset.stackable.tech/v1alpha1
+kind: SupersetCluster
+metadata:
+  name: superset
+  namespace: platform
+spec:
+  image:
+    productVersion: 2.1.0
+    stackableVersion: 23.7.0
+  clusterConfig:
+    listenerClass: external-stable
+    credentialsSecret: superset-credentials
+    mapboxSecret: superset-mapbox-api-key
+    loadExamplesOnInit: false
+  nodes:
+    roleGroups:
+      default:
+        config:
+          rowLimit: 10000
+          webserverTimeout: 300
+
+

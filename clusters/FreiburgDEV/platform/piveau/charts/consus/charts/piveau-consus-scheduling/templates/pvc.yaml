@@ -1,0 +1,15 @@
+{{- if .Values.persistence.enabled -}}
+{{- $fullName := include "piveau-consus-scheduling.fullname" . -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-consus-scheduling.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+{{- end }}

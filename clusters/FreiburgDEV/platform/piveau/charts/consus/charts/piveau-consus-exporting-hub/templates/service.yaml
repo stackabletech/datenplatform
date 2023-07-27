@@ -1,0 +1,15 @@
+{{- $fullName := include "piveau-consus-exporting-hub.fullname" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-consus-exporting-hub.labels" . | nindent 4 }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: default
+      protocol: TCP
+  selector:
+    {{- include "piveau-consus-exporting-hub.selectorLabels" . | nindent 4 }}

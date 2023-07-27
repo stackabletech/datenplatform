@@ -1,0 +1,35 @@
+---
+apiVersion: opa.stackable.tech/v1alpha1
+kind: OpaCluster
+metadata:
+  name: opa
+  namespace: platform
+spec:
+  image:
+    productVersion: 0.45.0
+    stackableVersion: "23.7.0"
+  servers:
+    roleGroups:
+      default:
+        selector:
+          matchLabels:
+            kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trino-opa-bundle
+  labels:
+    opa.stackable.tech/bundle: "trino"
+  namespace: platform
+data:
+  trino.rego: |
+    package trino
+
+    default allow = false
+
+    allow {
+      input.context.identity.user == "admin"
+    }
+
+

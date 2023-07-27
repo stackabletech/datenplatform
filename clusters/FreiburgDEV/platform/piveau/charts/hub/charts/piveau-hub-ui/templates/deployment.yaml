@@ -1,0 +1,39 @@
+{{- $fullName := include "piveau-hub-ui.fullname" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-hub-ui.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "piveau-hub-ui.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "piveau-hub-ui.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ $fullName }}
+          image: {{ printf "%s:%s" .Values.image .Values.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: default
+          {{- if .Values.resources }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          env:
+            - name: VUE_APP_API_BASE_URL
+              value: {{ include "piveau-hub-ui.searchAddress" . }}
+            - name: VUE_APP_API_HUB_URL
+              value: {{ include "piveau-hub-ui.repoAddress" . }}
+            {{- if .Values.extraEnvs }}
+            {{- toYaml .Values.extraEnvs | nindent 12 }}
+            {{- end }}

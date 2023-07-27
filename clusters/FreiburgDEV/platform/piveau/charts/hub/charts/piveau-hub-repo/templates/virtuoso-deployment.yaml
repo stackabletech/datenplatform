@@ -1,0 +1,68 @@
+{{- $fullName := include "piveau-hub-repo.virtuosoName" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-hub-repo.virtuosoLabels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "piveau-hub-repo.virtuosoSelectorLabels" . | nindent 6 }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "piveau-hub-repo.virtuosoSelectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ $fullName }}
+          image: {{ printf "%s:%s" .Values.virtuoso.image .Values.virtuoso.imageTag }}
+          imagePullPolicy: {{ .Values.virtuoso.imagePullPolicy }}
+          ports:
+            - containerPort: 8890
+              name: default
+            - containerPort: 1111
+              name: service
+          startupProbe:
+            httpGet:
+              path: /
+              port: default
+            initialDelaySeconds: 30
+            failureThreshold: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: default
+            failureThreshold: 1
+            periodSeconds: 15
+          {{- if .Values.virtuoso.resources }}
+          resources: {{ toYaml .Values.virtuoso.resources | nindent 12 }}
+          {{- end }}
+          env:
+            - name: DBA_PASSWORD
+              value: {{ .Values.virtuoso.password }}
+            - name: VIRT_PARAMETERS_NUMBEROFBUFFERS
+              value: "170000"
+            - name: VIRT_PARAMETERS_MAXDIRTYBUFFERS
+              value: "130000"
+            - name: VIRT_PARAMETERS_SERVERTHREADS
+              value: "100"
+            - name: VIRT_HTTPSERVER_SERVERTHREADS
+              value: "100"
+            - name: VIRT_HTTPSERVER_MAXCLIENTCONNECTIONS
+              value: "100"
+            {{- if .Values.virtuoso.extraEnvs }}
+            {{- toYaml .Values.virtuoso.extraEnvs | nindent 12 }}
+            {{- end }}
+      {{- if .Values.virtuoso.persistence.enabled }}
+          volumeMounts:
+            - mountPath: /database
+              name: virtuoso-database
+      volumes:
+        - name: virtuoso-database
+          persistentVolumeClaim:
+            claimName: {{ $fullName }}
+      {{- end }}

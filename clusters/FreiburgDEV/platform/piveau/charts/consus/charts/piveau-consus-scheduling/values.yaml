@@ -1,0 +1,43 @@
+nameOverride: ""
+
+image: registry.gitlab.com/piveau/consus/piveau-consus-scheduling
+imageTag: "2.0.1"
+imagePullPolicy: IfNotPresent
+imagePullSecrets: [ ]
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+extraEnvs: [ ]
+
+javaOpts: "-XX:MaxRAMPercentage=75.0"
+
+service:
+  port: 8080
+
+serviceDiscovery:
+  - piveau-consus-exporting-hub
+  - piveau-consus-importing-rdf
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: piveau.freiburg.stackable.de
+      paths:
+        - path: /scheduling/
+          pathType: Prefix
+
+persistence:
+  enabled: true
+  size: 1Gi
+
+cli:
+  enabled: false
+  # http: { }
+  # telnet: { }
+

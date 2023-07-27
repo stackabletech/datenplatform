@@ -37,7 +37,7 @@ with models.DAG(
         task_id="trino_insert",
         sql=f"""insert
 	into
-		lakehouse.smart_city.bikes_history 
+		lakehouse.platform.frelo_history
 	select
 		current_timestamp(6) as timestamp,
 		longitude,
@@ -51,7 +51,7 @@ with models.DAG(
 		freloplus,
 		free_cargo_bikes
 from
-		staging.smart_city.bikes""",
+		staging.platform.frelo""",
         handler=list,
     )
     (

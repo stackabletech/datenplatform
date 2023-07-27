@@ -1,0 +1,81 @@
+{{- $fullName := include "piveau-hub-search.fullname" . -}}
+{{ $elasticsearchService := printf "%s-master" .Values.elasticsearch.nameOverride }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "piveau-hub-search.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "piveau-hub-search.selectorLabels" . | nindent 6 }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "piveau-hub-search.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      initContainers:
+        - name: init-wait-for-db
+          image: alpine
+          command: ["/bin/sh", "-c", "for i in $(seq 1 300); do nc -zvw1 {{ $elasticsearchService }} 9200 && exit 0 || sleep 3; done; exit 1"]
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128M
+            requests:
+              cpu: 50m
+              memory: 64M
+      containers:
+        - name: {{ $fullName }}
+          image: {{ printf "%s:%s" .Values.image .Values.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: default
+{{/*          startupProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /health*/}}
+{{/*              port: default*/}}
+{{/*            initialDelaySeconds: 20*/}}
+{{/*            failureThreshold: 10*/}}
+{{/*            periodSeconds: 10*/}}
+{{/*          livenessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /health*/}}
+{{/*              port: default*/}}
+{{/*            failureThreshold: 1*/}}
+{{/*            periodSeconds: 10*/}}
+          {{- if .Values.resources }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          env:
+            - name: JAVA_OPTS
+              value: -XX:+ExitOnOutOfMemoryError {{ .Values.javaOpts }}
+            - name: PIVEAU_HUB_SEARCH_ES_CONFIG
+              value: |-
+                {
+                  "host": "search-elasticsearch-master",
+                  "port": 9200
+                }
+            - name: PIVEAU_HUB_SEARCH_API_KEY
+              value: {{ default .Values.apiKey (.Values.global).searchApiKey | quote }}
+            {{- if .Values.extraEnvs }}
+            {{- toYaml .Values.extraEnvs | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+                {{- if .Values.externalShape }}
+            - mountPath: /usr/verticles/conf/shapes
+              name: shapes
+                {{- end }}
+      volumes:
+        {{- if .Values.externalShape }}
+        - name: shapes
+          configMap:
+            name: {{ $fullName }}
+        {{- end }}

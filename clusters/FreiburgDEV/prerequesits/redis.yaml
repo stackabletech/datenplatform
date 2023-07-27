@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: airflow-redis
+  namespace: platform
+spec:
+  chart:
+    spec:
+      chart: redis
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-repo
+      version: 17.3.7
+  valuesFrom:
+    - kind: ConfigMap
+      name: redis-values
+  interval: 1m0s
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-values
+  namespace: platform
+data:
+  values.yaml: |
+    ---
+    auth:
+      password: redis
+    replica:
+      replicaCount: 1
