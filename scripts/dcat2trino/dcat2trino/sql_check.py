@@ -20,15 +20,15 @@ def check_sql():
         for file_name in os.listdir('sql'):
             name = os.path.basename(file_name).split('.')[0]
 
-        try:
-            res = connection.execute(expression.text(f"select * from staging.smart_city.{name}"))
-            for row in res:
-                geo_type = json.loads(row[-1])['type']
-                content = type_dict.get(geo_type, [])
-                content.append(file_name)
-                type_dict[geo_type] = sorted(content)
-                break
-        except Exception as e:
-            print(file_name, e)
+            try:
+                res = connection.execute(expression.text(f"select * from staging.smart_city.{name}"))
+                for row in res:
+                    geo_type = json.loads(row[-1])['type']
+                    content = type_dict.get(geo_type, [])
+                    content.append(file_name)
+                    type_dict[geo_type] = sorted(content)
+                    break
+            except Exception as e:
+                print(file_name, e)
 
         print(type_dict)
