@@ -1,14 +1,11 @@
 apiVersion: v2
-appVersion: 4.0.10
+type: application
+name: piveau-hub-search
+description: Helm chart for the piveau hub search component
+icon: https://www.piveau.de/css/img/piveau-logo.svg
 dependencies:
 - name: elasticsearch
   repository: https://helm.elastic.co
   version: 7.17.3
-description: Helm chart for the piveau hub search component
-icon: https://www.piveau.de/css/img/piveau-logo.svg
-maintainers:
-- email: simon.dutkowski@fokus.fraunhofer.de
-  name: Simon Dutkowski
-name: piveau-hub-search
-type: application
 version: 1.0.2
+appVersion: 4.0.10
