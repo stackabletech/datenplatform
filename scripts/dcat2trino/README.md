@@ -4,4 +4,4 @@ This is an early prototype of a tool that connects to a DCAT-AP endpoint, parses
 
 
 ## Setup
-Copy the file `trino_connection.py.template` to `trino_connection.py` and edit according to your needs.
+Copy the file `dcat2trino/trino_connection.py.template` to `dcat2trino/trino_connection.py` and edit according to your needs.

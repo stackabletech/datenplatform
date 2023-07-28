@@ -1,2 +1,3 @@
 /.idea/
-/scripts/dcat2trino/trino_connection.py
+shell.nix
+/scripts/dcat2trino/dcat2trino/trino_connection.py

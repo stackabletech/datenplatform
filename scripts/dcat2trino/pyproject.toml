@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "dcat2trino"
+version = "0.1.0"
+description = ""
+authors = ["Sönke Liebau <soenke.liebau@stackable.tech>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+owslib = "^0.29.2"
+sqlalchemy = "^2.0.19"
+rdflib = "^6.3.2"
+trino = "^0.326.0"
+pandas = "^2.0.3"
+pyproj = "^3.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+dcat2trino = "dcat2trino.__main__:main"
