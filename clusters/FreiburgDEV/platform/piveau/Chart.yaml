@@ -1,5 +1,5 @@
 apiVersion: v2
 appVersion: 1.0.0
-description: Helm chart for piveau-hub
-name: piveau-hub
+description: Stackable Helm chart for the Piveau stack with Piveau Hub and Piveau Consus
+name: piveau
 version: 1.0.0

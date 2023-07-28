@@ -1,12 +1,10 @@
-{{- $fullName := include "piveau-hub-ui.fullname" . -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ $fullName }}
+  name: {{ include "piveau-hub-ui.fullname" . }}
   labels:
     {{- include "piveau-hub-ui.labels" . | nindent 4 }}
 spec:
-  type: LoadBalancer
   ports:
     - name: http
       port: {{ .Values.service.port }}
