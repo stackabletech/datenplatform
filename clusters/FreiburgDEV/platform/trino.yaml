@@ -20,10 +20,26 @@ spec:
         package: trino
     listenerClass: external-stable
   coordinators:
+    config:
+      queryMaxMemory: 10TB
+      resources:
+        cpu:
+          min: "1"
+          max: "4"
+        memory:
+          limit: '6Gi'
     roleGroups:
       default:
         replicas: 1
   workers:
+    config:
+      queryMaxMemoryPerNode: 8GB
+      resources:
+        cpu:
+          min: "2"
+          max: "6"
+        memory:
+          limit: '16Gi'
     roleGroups:
       default:
         replicas: 4
