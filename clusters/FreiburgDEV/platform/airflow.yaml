@@ -25,9 +25,6 @@ spec:
   workers:
     config:
       resources:
-        cpu:
-          min: "400m"
-          max: "512Mi"
         memory:
           limit: '1Gi'
     roleGroups:
