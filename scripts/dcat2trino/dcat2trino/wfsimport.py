@@ -1,6 +1,7 @@
 import ast
 from io import StringIO
 
+import fiona
 import geopandas as gpd
 import pandas as pd
 import pyogrio
@@ -41,7 +42,7 @@ def import_wfs(base_url, endpoints):
                             df_new[col] = df[col]
                     except Exception as e:
                         df_new[col] = df[col]
-            except (pd.errors.ParserError, KeyError, pyogrio.errors.DataSourceError) as e:
+            except (pd.errors.ParserError, KeyError, pyogrio.errors.DataSourceError, fiona.errors.DriverError) as e:
                 print(url, e)
                 continue
 
