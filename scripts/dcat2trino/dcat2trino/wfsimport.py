@@ -98,7 +98,6 @@ def import_wfs(base_url, endpoints):
 
                     try:
                         connection.execute(expression.text(statement))
-                        print("skipping trino part")
                     except Exception as e:
                         print(f"Failed to create table [{description_1}_{description_2}] due to [{e}]")
                         continue

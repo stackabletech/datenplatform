@@ -9,6 +9,12 @@ import wfsimport
 #urllib.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def main():
+    # Ensure output directories exist
+    if not os.path.exists("work"):
+        os.makedirs("work")
+    if not os.path.exists("sql"):
+        os.makedirs("sql")
+
     sources_file_path = os.path.abspath("../../../source_definitions/sources.json")
 
     # Load definitions of sources to import from definition file
@@ -36,7 +42,7 @@ def main():
             print(f"no endpoints defined for service at [{base_url}], skipping ...")
             continue
 
-        #wfsimport.import_wfs(base_url, services)
+        wfsimport.import_wfs(base_url, services)
 
 
     # Import all defined dcat endpoints

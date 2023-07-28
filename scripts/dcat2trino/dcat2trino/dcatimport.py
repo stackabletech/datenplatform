@@ -30,12 +30,6 @@ def import_dcat(url):
     graph = Graph()
     graph.parse(url)
 
-    # Ensure output directories exist
-    if not os.path.exists("work"):
-        os.makedirs("work")
-    if not os.path.exists("sql"):
-        os.makedirs("sql")
-
     qres = graph.query(sparql_query)
     for row in qres:
         print(f"Processing dataset [{row.dataset}]")
@@ -89,8 +83,7 @@ def import_dcat(url):
                 writer.write(statement + ";")
 
                 try:
-                    #connection.execute(text(statement))
-                    print("skipping trino part")
+                    connection.execute(text(statement))
                 except Exception as e:
                     print(f"Failed to create table [{util.cleanup_name(row.description)}] due to [{e}]")
                     continue
