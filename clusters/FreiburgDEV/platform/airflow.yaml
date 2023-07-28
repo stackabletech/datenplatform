@@ -23,6 +23,13 @@ spec:
       default:
         replicas: 1
   workers:
+    config:
+      resources:
+        cpu:
+          min: "400m"
+          max: "512Mi"
+        memory:
+          limit: '1Gi'
     roleGroups:
       default:
         replicas: 3
