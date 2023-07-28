@@ -20,7 +20,7 @@ spec:
   chart:
     spec:
       chart: ./clusters/FreiburgDEV/platform/piveau
-      reconcileStrategy: ChartVersion
+      reconcileStrategy: Revision
       version: '1.0.0'
       sourceRef:
         kind: GitRepository
