@@ -1,10 +1,12 @@
-from rdflib import Graph
-from sqlalchemy.sql.expression import select, text
-import trino_connection
 import os
 import urllib.request
+
 import pandas as pd
+from rdflib import Graph
+
+import trino_connection
 import util
+
 
 def import_dcat(url):
      # Define the SPARQL query to extract datasets provided by "Stadt Freiburg"
@@ -41,8 +43,8 @@ def import_dcat(url):
             print(f"skipping record, not csv: {row.format}")
             continue
 
-        datafile = f"work/{row.description}.csv"
-        sqlfile = f"sql/{row.description}.sql"
+        datafile = f"work/{util.cleanup_name(row.description)}.csv"
+        sqlfile = f"sql/{util.cleanup_name(row.description)}.sql"
 
         if os.path.isfile(datafile):
             print(f"file has already been downloaded")

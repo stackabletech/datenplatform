@@ -1,5 +1,6 @@
-from trino.sqlalchemy import URL
 from sqlalchemy import create_engine
+from trino.sqlalchemy import URL
+
 
 def get_trino_engine():
     # load trino connection details from file

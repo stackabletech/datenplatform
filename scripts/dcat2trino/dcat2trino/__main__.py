@@ -1,14 +1,10 @@
-
-
-import os
-import pandas as pd
-from sqlalchemy import create_engine
-from trino.sqlalchemy import URL
-from sqlalchemy.sql.expression import select, text
 import json
+import os
 
-import wfsimport
 import dcatimport
+import sql_check
+import wfsimport
+
 
 #urllib.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -40,12 +36,17 @@ def main():
             print(f"no endpoints defined for service at [{base_url}], skipping ...")
             continue
 
-        wfsimport.import_wfs(base_url, services)
+        #wfsimport.import_wfs(base_url, services)
 
 
     # Import all defined dcat endpoints
     for service in sources_json["dcatap"]:
         dcatimport.import_dcat(service)
+
+    print("done importing")
+
+    print("running check to ensure all views work")
+    sql_check.check_sql()
 
     print("done")
 

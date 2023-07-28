@@ -1,13 +1,16 @@
-from owslib.wfs import WebFeatureService
 import ast
 from io import StringIO
 
 import geopandas as gpd
 import pandas as pd
+import pyogrio
 import requests
+from owslib.wfs import WebFeatureService
 from sqlalchemy.sql import expression
-import util
+
 import trino_connection
+import util
+
 
 def import_wfs(base_url, endpoints):
     for endpoint in endpoints:
@@ -15,6 +18,7 @@ def import_wfs(base_url, endpoints):
         wfs = WebFeatureService(url=wfsUrl, version="2.0.0")
         for featureType in list(wfs.contents):
             url = f"{wfsUrl}?request=getfeature&service=wfs&version=2.0.0&typename={featureType}&outputformat=geojson&srsname=urn:ogc:def:crs:EPSG::4326"
+            print(f"Retrieving {url}")
 
             r = requests.get(url)
             content = StringIO(r.content.decode('utf-8'))
@@ -37,8 +41,9 @@ def import_wfs(base_url, endpoints):
                             df_new[col] = df[col]
                     except Exception as e:
                         df_new[col] = df[col]
-            except pd.errors.ParserError:
-                print(url, 'Parse Error CSV')
+            except (pd.errors.ParserError, KeyError, pyogrio.errors.DataSourceError) as e:
+                print(url, e)
+                continue
 
             description_1 = url.split('?')[0].split('/')[-1]
             description_2 = url.split('typename=ms:')[-1].split('&')[0].replace('-', '_')
@@ -92,7 +97,7 @@ def import_wfs(base_url, endpoints):
                     writer.write(statement)
 
                     try:
-                        #connection.execute(expression.text(statement))
+                        connection.execute(expression.text(statement))
                         print("skipping trino part")
                     except Exception as e:
                         print(f"Failed to create table [{description_1}_{description_2}] due to [{e}]")
