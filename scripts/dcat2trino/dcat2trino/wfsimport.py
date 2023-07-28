@@ -14,7 +14,7 @@ def import_wfs(base_url, endpoints):
         wfsUrl = base_url + '/' + endpoint
         wfs = WebFeatureService(url=wfsUrl, version="2.0.0")
         for featureType in list(wfs.contents):
-            url = f"{wfsUrl}/{featureType}"
+            url = f"{wfsUrl}?request=getfeature&service=wfs&version=2.0.0&typename={featureType}&outputformat=geojson&srsname=urn:ogc:def:crs:EPSG::4326"
 
             r = requests.get(url)
             content = StringIO(r.content.decode('utf-8'))
