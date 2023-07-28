@@ -1,3 +1,5 @@
 /.idea/
 shell.nix
-/scripts/dcat2trino/dcat2trino/trino_connection.py
+/scripts/dcat2trino/dcat2trino/trino_configuration.py
+/scripts/dcat2trino/dcat2trino/sql/
+/scripts/dcat2trino/dcat2trino/work/

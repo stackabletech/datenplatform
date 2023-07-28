@@ -1,148 +1,53 @@
-from rdflib import Graph
-import urllib.request
+
+
 import os
 import pandas as pd
 from sqlalchemy import create_engine
 from trino.sqlalchemy import URL
 from sqlalchemy.sql.expression import select, text
 import json
-from owslib.wfs import WebFeatureService
+
+import wfsimport
+import dcatimport
 
 #urllib.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def cleanup_name(name):
-    return str(name) \
-        .replace(" ", "_") \
-        .replace("(", "") \
-        .replace(")", "") \
-        .replace("-", "_") \
-        .replace(",", "") \
-        .replace(".", "") \
-        .replace("\\", "") \
-        .replace("/", "") \
-        .lower() \
-        .replace("ä", "ae") \
-        .replace("ü", "ue") \
-        .replace("ö", "oe") \
-        .replace("ß", "ss")
-
-
 def main():
-    print("test")
-    typemapping = {"object": "varchar", "int64": "bigint", "float64": "double"}
+    sources_file_path = os.path.abspath("../../../source_definitions/sources.json")
 
-    # Define the RDF data URL
-    data_url = "https://fritz.freiburg.de/duva2dcat/dcat/catalog"
+    # Load definitions of sources to import from definition file
+    # TODO: Move hard coded file path to a command line parameter
+    with open(sources_file_path) as sources_file:
+        try:
+            sources_json = json.loads(sources_file.read())
+        except Exception as e:
+            print(f"Failed to parse sources config from {sources_file_path} due to:  [{e}]")
+            exit(1)
 
-    # Load RDF data from the URL
-    graph = Graph()
-    graph.parse(data_url)
+    # Import all defined wfs endpoints
+    for service in sources_json["wfs"]:
+        # Do some basic integrity checking and skip import if they fail
 
-    # Define the SPARQL query to extract datasets provided by "Stadt Freiburg"
-    sparql_query = """
-        PREFIX dcat: <http://www.w3.org/ns/dcat#>
-        PREFIX dct: <http://purl.org/dc/terms/>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        SELECT ?dataset ?distribution ?description ?downloadurl ?modified ?format
-        WHERE {
-            ?dataset a dcat:Dataset .
-            ?dataset dcat:distribution ?distribution .
-            ?distribution dct:description ?description .
-            ?distribution dcat:downloadURL ?downloadurl .
-            ?distribution dct:modified ?modified .
-            ?distribution dct:format ?format .
-            
-        }
-    """
-
-    # load trino connection details from file
-    import trino_connection
-
-    with open('../../../source_definitions/sources.json') as sources_file:
-        file_contents = sources_file.read()
-
-    sources_json = json.loads(file_contents)
-
-    for endpoint in sources_json["wfs"]:
-        base_url = endpoint["base_url"]
-        for service in endpoint["services"]:
-            wfsUrl =  base_url + '/' + service
-            print(f"Checking service [{service}] at url [{wfsUrl}]...")
-            wfs = WebFeatureService(url=wfsUrl, version="2.0.0")
-            for featureType in list(wfs.contents):
-                schema = wfs.get_schema(typename=featureType)
-                print(f"{featureType}: {schema['properties']}")
-            print()
-
-    engine = create_engine('trino://admin:adminadmin@85.215.223.118:31488/lakehouse')
-    engine = create_engine(
-        URL(
-            host=trino_connection.host,
-            port=trino_connection.port,
-            catalog=trino_connection.catalog,
-            user=trino_connection.user,
-            password=trino_connection.password
-        ),
-        connect_args={
-            "verify": False
-        }
-    )
-    connection = engine.connect()
-
-    qres = graph.query(sparql_query)
-    for row in qres:
-        print(f"Processing dataset [{row.dataset}]")
-        if str(row.format) != "http://publications.europa.eu/resource/authority/file-type/CSV":
-            print(f"skipping record, not csv: {row.format}")
+        # We need a base_url
+        base_url = service["base_url"]
+        if base_url is None:
+            print(f"base_url not set for service of type wfs, skipping...")
             continue
 
-        datafile = f"work/{row.description}.csv"
-        sqlfile = f"sql/{row.description}.sql"
+        # If no endpoints are defined there is nothing to do for us
+        services = service["services"]
+        if len(services) == 0:
+            print(f"no endpoints defined for service at [{base_url}], skipping ...")
+            continue
 
-        if os.path.isfile(datafile):
-            print(f"file has already been downloaded")
-        else:
-            print(f"downloading dataset from {row.downloadurl}...")
-            try:
-                urllib.request.urlretrieve(row.downloadurl, datafile)
-            except urllib.error.HTTPError as e:
-                print(f"Download failed: [{e}]")
-                continue
+        wfsimport.import_wfs(base_url, services)
 
-        print(f"analyzing csv structure ..")
-        separator = ','
-        try:
-            df = pd.read_csv(datafile, decimal=',')
-        except pd.errors.ParserError as e:
-            print(f"Failed to parse {datafile} falling back to ; as separator and trying again..")
-            try:
-                df = pd.read_csv(datafile, decimal=',', sep=";")
-                separator = ';'
-            except pd.errors.ParserError as e:
-                print(f"Failed to parse {datafile} with ; as separator, giving up!")
-                continue
 
-        print(f"Finished parsing [{datafile}], identified [{separator}] as separator")
+    # Import all defined dcat endpoints
+    for service in sources_json["dcatap"]:
+        dcatimport.import_dcat(service)
 
-        with open(sqlfile, 'w') as writer:
-            statement = f"CREATE or REPLACE VIEW staging.smart_city.{cleanup_name(row.description)} AS\n"
-            statement += f"WITH temp AS (SELECT *\n"
-            statement += f"\tFROM storage.csv.\"{row.downloadurl}\")\n"
-            statement += f"SELECT\n"
-            for column in range(len(df.columns)):
-                statement +=  f"\tCAST(trim(LEADING '\"' FROM trim(TRAILING '\"' FROM \"{df.columns[column]}\")) AS {typemapping[str(df.dtypes[column])]}) {cleanup_name(df.columns[column])}"
-                if column < len(df.columns) - 1:
-                    statement += ",\n"
-                else:
-                    statement += "\n"
-            statement += f"FROM temp\n"
-            writer.write(statement, ";")
-
-            try:
-                connection.execute(text(statement))
-            except Exception as e:
-                print(f"Failed to create table [{cleanup_name(row.description)}] due to [{e}]")
-                continue
+    print("done")
 
 if __name__ == "__main__":
     main()

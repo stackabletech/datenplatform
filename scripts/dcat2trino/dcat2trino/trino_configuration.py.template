@@ -1,5 +1,5 @@
 host = "trino.freiburg.stackable.de"
-port = 31488
+port = 8443
 catalog = "lakehouse"
-user = "admin"
+user = ""
 password = ""
