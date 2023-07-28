@@ -17,6 +17,10 @@ spec:
     s3:
       reference: ionos
   metastore:
+    config:
+      resources:
+        memory:
+          limit: '1Gi'
     roleGroups:
       default:
         replicas: 1
