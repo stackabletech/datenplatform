@@ -2,10 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-global:
-  searchApiKey: mySearchApiKey
-  repoApiKey: myRepoApiKey
-
 tags:
   piveau-consus-scheduling: true
   piveau-consus-exporting-hub: true
@@ -14,10 +10,5 @@ tags:
 piveau-consus-scheduling:
   ingress:
     enabled: true
-piveau-consus-exporting-hub:
-  ingress:
-    enabled: true
-piveau-consus-importing-rdf:
-  ingress:
-    enabled: true
-  
+piveau-consus-exporting-hub: {}
+piveau-consus-importing-rdf: {}
