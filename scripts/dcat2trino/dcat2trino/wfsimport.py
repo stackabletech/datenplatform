@@ -93,7 +93,10 @@ def import_wfs(base_url, endpoints):
                     statement += ",\n"
                     statement += "\tto_geometry(from_geojson_geometry(json_format(cast(geometry as json)))) as geometry,\n"
                     statement += "\tjson_format(cast(geometry as json)) as geometry_geojson,\n"
-                    statement += f"\tjson_object(\'type\': \'{geom_type}\', \'geometry\': json_format(cast(geometry as json)) FORMAT JSON) as geometry_geojson2\n"
+                    if geom_type == 'MultiLineString':
+                        statement += "\tjson_object('type': 'LineString', 'geometry': json_object('type': 'LineString', 'coordinates': json_format(CAST(CAST(flatten(geometry.coordinates) AS array(array(double))) AS json)) FORMAT JSON)) as geometry_geojson2\n"
+                    else:
+                        statement += f"\tjson_object(\'type\': \'{geom_type}\', \'geometry\': json_format(cast(geometry as json)) FORMAT JSON) as geometry_geojson2\n"
                     statement += "from (json cross join unnest(temp))"
                     writer.write(statement)
 
