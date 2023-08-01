@@ -6,7 +6,7 @@ metadata:
   namespace: platform
 spec:
   image:
-    custom: docker.stackable.tech/sandbox/freiburg/superset:2.1.0-stackable23.7.0
+    custom: docker.stackable.tech/sandbox/freiburg/superset:2.1.0-stackable23.7.0-1
     productVersion: 2.1.0
   clusterConfig:
     listenerClass: external-stable
