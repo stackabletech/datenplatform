@@ -201,26 +201,6 @@ engine = create_engine(
 )
 connection = engine.connect()
 
-#
-# def check_column(col_t, s_t, root_c):
-#     try:
-#         s = s_t.apply(ast.literal_eval)
-#         s = s.explode()
-#         if s.shape != s_t.shape:
-#             s = pd.concat([s, s.apply(pd.Series)], axis=1).drop(col_t, axis=1)
-#             # print(s, col_t, s.shape[1])
-#             s = s.reset_index()
-#             s.drop('index', axis=1, inplace=True)
-#             sub_columns[col_t] = [f'{col_t}_' + c for c in s.columns]
-#             nested_columns.append(col_t)
-#             children[root_c].append(col_t)
-#             for c in s.columns:
-#                 check_column(c, s[c].astype(str), root_c=col_t)
-#     except Exception as e:
-#         # print(e)
-#         pass
-#         # df_new[col] = df[col]
-
 
 def create_json_rows(s_t, col_t, n_tabs=4):
     tabs = n_tabs * '\t'
@@ -299,8 +279,6 @@ for url in urls:
     content = StringIO(r.content.decode('utf-8'))
     df_new = pd.DataFrame()
     geom_type = ""
-    sub_columns = dict()
-    nested_columns = []
     df = pd.DataFrame()
     dtypes_dict = dict()
 
@@ -328,16 +306,6 @@ for url in urls:
         for column in df.columns:
             if column != 'geometry':
                 sts.append(create_json_rows(df[column], column, n_tabs=4))
-        #     if column != 'geometry' and column not in nested_columns:
-        #         sts.append(f"\t\t\t\t{cleanup_name(column)} {typemapping.get(str(df.dtypes[column]), 'varchar')}")
-        #     elif column in nested_columns:
-        #         sub_entries = []
-        #         for sub_column in sub_columns[column]:
-        #             sub_entries.append(f"\t\t\t\t\t{cleanup_name(sub_column)} {typemapping.get(str(df_new.dtypes.get(sub_column+f'_{column}', df_new.dtypes[sub_column])), 'varchar')}")
-        #         nested_entry = f"\t\t\t\t{column} array(row(\n"
-        #         nested_entry += ",\n".join(sub_entries)
-        #         nested_entry += "))"
-        #         sts.append(nested_entry)
         statement += ",\n".join(sts)
         statement += "\n"
         statement += "\t\t\t),\n"
