@@ -92,7 +92,7 @@ class WFSImporter(object):
                         statement += ",\n"
                         statement += "\tto_geometry(from_geojson_geometry(json_format(cast(geometry as json)))) as geometry,\n"
                         statement += "\tjson_format(cast(geometry as json)) as geometry_geojson,\n"
-                        statement += f"\tjson_object(\'type\': \'{geom_type}\', \'geometry\': json_format(cast(geometry as json)) FORMAT JSON) as geometry_geojson2\n"
+                        statement += f"\tjson_object(\'type\': \'Feature\', \'properties\': json_object(), \'geometry\': json_format(cast(geometry as json)) FORMAT JSON) as geometry_geojson2\n"
                         statement += "from (json \n"
                         sts = ["\tcross join unnest(temp)"]
                         sts = self._create_nested_join(df, sts)
