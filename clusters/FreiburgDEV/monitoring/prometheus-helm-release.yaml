@@ -13,4 +13,161 @@ spec:
         kind: HelmRepository
         name: prometheus-repository
       version: 47.0.0
+  valuesFrom:
+    - kind: ConfigMap
+      name: prometheus-values
   interval: 1m0s
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-values
+  namespace: monitoring
+data:
+  values.yaml: |
+  ---
+  ## Provide custom recording or alerting rules to be deployed into the cluster.
+  ##
+  additionalPrometheusRulesMap: 
+
+    rule-name:
+      groups:
+      - name: Cluster-Wide-Alerts
+        rules:
+
+        - alert: ContainerCpuUsage
+          expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (instance, name) * 100) > 80
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Container CPU usage (instance {{ $labels.instance }})
+            description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+          # See https://medium.com/faun/how-much-is-too-much-the-linux-oomkiller-and-used-memory-d32186f29c9d
+        - alert: ContainerMemoryUsage
+          expr: (sum(container_memory_working_set_bytes{name!=""}) BY (instance, name) / sum(container_spec_memory_limit_bytes > 0) BY (instance, name) * 100) > 80
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Container Memory usage (instance {{ $labels.instance }})
+            description: "Container Memory usage is above 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: ContainerHighThrottleRate
+          expr: rate(container_cpu_cfs_throttled_seconds_total[3m]) > 1
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Container high throttle rate (instance {{ $labels.instance }})
+            description: "Container is being throttled\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: DeadMansSwitch
+          expr: vector(1)
+          labels:
+          severity: info
+          annotations:
+            description: This is a DeadMansSwitch meant to ensure that the entire Alerting
+            pipeline is functional.
+            summary: Alerting DeadMansSwitch
+    
+
+      - name: Prometheus-Standard-Alerts
+        rules:
+
+        - alert: PrometheusTooManyRestarts
+          expr: changes(process_start_time_seconds{job=~"prometheus|pushgateway|alertmanager"}[15m]) > 2
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Prometheus too many restarts (instance {{ $labels.instance }})
+            description: "Prometheus has restarted more than twice in the last 15 minutes. It might be crashlooping.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+     
+        - alert: PrometheusRuleEvaluationFailures
+          expr: increase(prometheus_rule_evaluation_failures_total[3m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Prometheus rule evaluation failures (instance {{ $labels.instance }})
+            description: "Prometheus encountered {{ $value }} rule evaluation failures, leading to potentially ignored alerts.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: PrometheusTsdbWalCorruptions
+          expr: increase(prometheus_tsdb_wal_corruptions_total[1m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Prometheus TSDB WAL corruptions (instance {{ $labels.instance }})
+            description: "Prometheus encountered {{ $value }} TSDB WAL corruptions\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    
+      - name: Host and Hardware
+        rules:
+
+        - alert: HostOutOfMemory
+          expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host out of memory (instance {{ $labels.instance }})
+            description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: HostMemoryUnderMemoryPressure
+          expr: rate(node_vmstat_pgmajfault[1m]) > 1000
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host memory under memory pressure (instance {{ $labels.instance }})
+            description: "The node is under heavy memory pressure. High rate of major page faults\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: HostOutOfDiskSpace
+          expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host out of disk space (instance {{ $labels.instance }})
+            description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: HostUnusualDiskReadLatency
+          expr: rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: Host unusual disk read latency (instance {{ $labels.instance }})
+            description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: HostNodeOvertemperatureAlarm
+          expr: node_hwmon_temp_crit_alarm_celsius == 1
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Host node overtemperature alarm (instance {{ $labels.instance }})
+            description: "Physical node temperature alarm triggered\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - name: Postgresql alerts
+        rules:
+
+        - alert: PostgresqlDown
+          expr: pg_up == 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: Postgresql down (instance {{ $labels.instance }})
+            description: "Postgresql instance is down\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+        - alert: PostgresqlDeadLocks
+          expr: increase(pg_stat_database_deadlocks{datname!~"template.*|postgres"}[1m]) > 5
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Postgresql dead locks (instance {{ $labels.instance }})
+            description: "PostgreSQL has dead-locks\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
