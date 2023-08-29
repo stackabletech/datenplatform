@@ -31,19 +31,17 @@ piveau-hub-ui:
   # }
   imageTag: v1.13.3
   extraEnvs:
-    # Do not use any authentication (default is keycloak for v1.12.1 and that takes about 10s to fail when loading the UI)
+    # picked up by the runtimeconfig.sh but not used in any of the XHR requests
+    - name: VUE_APP_CORSPROXY_API_URL
+      value: "http://piveau.freiburg.stackable.tech/cors-proxy"
+    # Do not use any authentication for testing (default is keycloak for v1.12.1 and that takes about 10s to fail when loading the UI)
     - name: VUE_APP_AUTHENTICATION_USE_SERVICE
       value: "false"
-    # picked up by the runtimeconfig.sh but not used in any of the XHR requests
-    #- name: VUE_APP_CORSPROXY_API_URL
-    #  value: "http://piveau.freiburg.stackable.tech/cors-proxy"
-    #- name: VUE_APP_KEYCLOAK_ENABLE_LOGIN
-    #  value: "false"
-    #- name: VUE_APP_KEYCLOAK_REALM
+    #- name: VUE_APP_AUTHENTICATION_KEYCLOAK_REALM
     #  value: "piveau"
-    #- name: VUE_APP_KEYCLOAK_CLIENT_ID
-    #  value: "piveau-ui-hub"
-    #- name: VUE_APP_KEYCLOAK_URL
+    #- name: VUE_APP_AUTHENTICATION_KEYCLOAK_CLIENT_ID
+    #  value: "piveau-hub-ui"
+    #- name: VUE_APP_AUTHENTICATION_KEYCLOAK_URL
     #  value: "https://keycloak:8080"
   ingress:
     enabled: true
