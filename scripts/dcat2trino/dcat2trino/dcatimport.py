@@ -3,13 +3,15 @@ import urllib.request
 
 import pandas as pd
 from rdflib import Graph
+from sqlalchemy import text
 
 import trino_connection
 import util
+import ssl
 
 
 def import_dcat(url):
-     # Define the SPARQL query to extract datasets provided by "Stadt Freiburg"
+    # Define the SPARQL query to extract datasets provided by "Stadt Freiburg"
     sparql_query = """
         PREFIX dcat: <http://www.w3.org/ns/dcat#>
         PREFIX dct: <http://purl.org/dc/terms/>
@@ -25,6 +27,7 @@ def import_dcat(url):
             
         }
     """
+    ssl._create_default_https_context = ssl._create_unverified_context
 
     # Load RDF data from the URL
     graph = Graph()
@@ -53,12 +56,12 @@ def import_dcat(url):
         print(f"analyzing csv structure ..")
         separator = ','
         try:
-            df = pd.read_csv(datafile, decimal=',')
+            df = pd.read_csv(datafile, decimal=',', sep=separator)
         except pd.errors.ParserError as e:
             print(f"Failed to parse {datafile} falling back to ; as separator and trying again..")
             try:
-                df = pd.read_csv(datafile, decimal=',', sep=";")
                 separator = ';'
+                df = pd.read_csv(datafile, decimal=',', sep=separator)
             except pd.errors.ParserError as e:
                 print(f"Failed to parse {datafile} with ; as separator, giving up!")
                 continue
@@ -74,7 +77,7 @@ def import_dcat(url):
                 statement += f"\tFROM storage.csv.\"{row.downloadurl}\")\n"
                 statement += f"SELECT\n"
                 for column in range(len(df.columns)):
-                    statement +=  f"\tCAST(trim(LEADING '\"' FROM trim(TRAILING '\"' FROM \"{df.columns[column]}\")) AS {util.typemapping[str(df.dtypes[column])]}) {util.cleanup_name(df.columns[column])}"
+                    statement += f"\tCAST(trim(LEADING '\"' FROM trim(TRAILING '\"' FROM \"{df.columns[column]}\")) AS {util.typemapping[str(df.dtypes[column])]}) {util.cleanup_name(df.columns[column])}"
                     if column < len(df.columns) - 1:
                         statement += ",\n"
                     else:

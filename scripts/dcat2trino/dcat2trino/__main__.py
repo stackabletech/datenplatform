@@ -42,12 +42,12 @@ def main():
             print(f"no endpoints defined for service at [{base_url}], skipping ...")
             continue
 
-        wfsimport.import_wfs(base_url, services)
-
+        wfs_importer = wfsimport.WFSImporter(base_url, services)
+        wfs_importer.import_wfs()
 
     # Import all defined dcat endpoints
-    for service in sources_json["dcatap"]:
-        dcatimport.import_dcat(service)
+    # for service in sources_json["dcatap"]:
+    #     dcatimport.import_dcat(service)
 
     print("done importing")
 
