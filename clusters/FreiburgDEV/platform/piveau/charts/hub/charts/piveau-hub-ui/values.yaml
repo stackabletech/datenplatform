@@ -1,7 +1,7 @@
 nameOverride: ""
 
 image: registry.gitlab.com/piveau/hub/piveau-hub-ui
-imageTag: "1.5.4"
+imageTag: "v1.14.0"
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 

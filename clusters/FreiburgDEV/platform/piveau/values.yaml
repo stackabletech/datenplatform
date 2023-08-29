@@ -5,11 +5,22 @@
 global:
   searchApiKey: mySearchApiKey
   repoApiKey: myRepoApiKey
-  redirect: piveau.freiburg.stackable.de
 
 tags:
   piveau-hub: true
   piveau-consus: true
   
-piveau-hub: {}
-piveau-consus: {}
+piveau-hub:
+  piveau-hub-repo:
+    imageTag: 3.0.10
+  piveau-hub-search:
+    imageTag: 5.0.1
+  piveau-hub-ui:
+    imageTag: "v1.13.3"
+piveau-consus:
+  piveau-consus-exporting-hub:
+    imageTag: 4.0.0
+  piveau-consus-importing-rdf:
+    imageTag: 1.7.3
+  piveau-consus-scheduling:
+    imageTag: 2.0.2
